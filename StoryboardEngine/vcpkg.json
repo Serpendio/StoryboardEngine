@@ -1,0 +1,24 @@
+{
+  "dependencies": [
+    "assimp",
+    "directxtk",
+    {
+      "name": "imgui",
+      "features": [
+        "docking-experimental",
+        "dx11-binding",
+        "sdl3-binding"
+      ]
+    },
+    "nameof",
+    "nlohmann-json",
+    "sdl3",
+    {
+      "name": "stduuid",
+      "features": [
+        "system-gen"
+      ]
+    },
+    "joltphysics"
+  ]
+}
