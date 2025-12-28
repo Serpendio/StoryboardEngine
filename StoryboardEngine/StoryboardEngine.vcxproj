@@ -230,7 +230,7 @@
     <ClInclude Include="Inc\Internal\ModelData.h" />
     <ClInclude Include="Inc\Internal\ModelFactory.h" />
     <ClInclude Include="Inc\Internal\PrimativeModel.h" />
-    <ClInclude Include="Inc\Internal\SceneManager.h" />
+    <ClInclude Include="Inc\Utils\SceneManager.h" />
     <ClInclude Include="Inc\Internal\TimeManager.h" />
     <ClInclude Include="Inc\Internal\UUID.h" />
     <ClInclude Include="Inc\Internal\VertexData.h" />
@@ -277,7 +277,7 @@
     <ClCompile Include="Src\Internal\ModelData.cpp" />
     <ClCompile Include="Src\Internal\ModelFactory.cpp" />
     <ClCompile Include="Src\Internal\PrimativeModel.cpp" />
-    <ClCompile Include="Src\Internal\SceneManager.cpp" />
+    <ClCompile Include="Src\Utils\SceneManager.cpp" />
     <ClCompile Include="Src\Internal\TimeManager.cpp" />
     <ClCompile Include="Src\Internal\UUID.cpp" />
     <ClCompile Include="Src\Utils\ApplicationUtils.cpp" />

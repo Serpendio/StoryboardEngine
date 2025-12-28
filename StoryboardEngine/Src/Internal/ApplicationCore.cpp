@@ -7,7 +7,7 @@
 #include "Internal/D3DRenderer.h"
 #include "Internal/InputManager.h"
 #include "Internal/TimeManager.h"
-#include "Internal/SceneManager.h"
+#include "Utils/SceneManager.h"
 #include "Internal/ColourShader.h"
 #include "Core/ResourceManager.h"
 #include "Core/Input.h"

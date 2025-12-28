@@ -5,7 +5,7 @@
 #include <imgui_stdlib.h>
 #include "Core/SceneObject.h"
 #include "Core/Scene.h"
-#include "Internal/SceneManager.h"
+#include "Utils/SceneManager.h"
 #include "Core/SceneComponent.h"
 #include "Utils/ApplicationUtils.h"
 #include "Core/CameraComponent.h"

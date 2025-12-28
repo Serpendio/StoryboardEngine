@@ -78,7 +78,7 @@
     <ClInclude Include="Inc\Internal\PrimativeModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\Internal\SceneManager.h">
+    <ClInclude Include="Inc\Utils\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Inc\Internal\TimeManager.h">
@@ -185,7 +185,7 @@
     <ClCompile Include="Src\Internal\PrimativeModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Internal\SceneManager.cpp">
+    <ClCompile Include="Src\Utils\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Internal\TimeManager.cpp">
