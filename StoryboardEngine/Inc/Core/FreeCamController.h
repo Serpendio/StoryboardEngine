@@ -5,11 +5,14 @@ namespace StoryboardEngine
 {
 	class FreeCamController : public SceneComponent
 	{
+	private:
+		float m_moveSpeed = 10.f;
+		float m_rotateSpeed = 45.f;
+
 	public:
 		void OnUpdate() override;
+		void OnDrawInspector() override;
 
-	private:
-		float m_moveSpeed = 0.05f;
-		float m_rotateSpeed = .25f;
+		ADD_SERIALIZATION(SceneComponent, FreeCamController, JSON_VARIABLE(m_moveSpeed), JSON_VARIABLE(m_rotateSpeed))
 	};
 }

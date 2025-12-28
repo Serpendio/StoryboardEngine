@@ -2,6 +2,8 @@
 #include "Core/FreeCamController.h"
 #include "Core/Input.h"
 #include "Core/SceneTransform.h"
+#include "Core/Time.h"
+#include <imgui.h>
 
 void StoryboardEngine::FreeCamController::OnUpdate()
 {
@@ -17,8 +19,8 @@ void StoryboardEngine::FreeCamController::OnUpdate()
 
 		if (inputRotationDelta.LengthSquared() != 0)
 		{
-			rotation.x += inputRotationDelta.x * m_rotateSpeed;
-			rotation.y += inputRotationDelta.y * m_rotateSpeed;
+			rotation.x += inputRotationDelta.x * m_rotateSpeed * Time::GetDeltaTime();
+			rotation.y += inputRotationDelta.y * m_rotateSpeed * Time::GetDeltaTime();
 
 			GetTransform()->SetRotation(Vector3(rotation.x, rotation.y, rotation.z));
 		}
@@ -35,7 +37,13 @@ void StoryboardEngine::FreeCamController::OnUpdate()
 		inputMoveDelta.y * GetTransform()->GetUp() +
 		inputMoveDelta.z * GetTransform()->GetForward();
 
-	position += moveDelta * m_moveSpeed;
+	position += moveDelta * m_moveSpeed * Time::GetDeltaTime();
 
 	GetTransform()->SetPosition(Vector3(position.x, position.y, position.z));
+}
+
+void StoryboardEngine::FreeCamController::OnDrawInspector()
+{
+	ImGui::DragFloat("Move Speed", &m_moveSpeed, .1f);
+	ImGui::DragFloat("Rotate Speed", &m_rotateSpeed, .5f);
 }

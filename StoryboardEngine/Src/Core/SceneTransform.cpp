@@ -104,17 +104,17 @@ void StoryboardEngine::SceneTransform::SetRotation(const Vector3& rotation)
 	changedThisFrame = true;
 	this->rotation = Vector3(std::fmod(rotation.x, 360.f), std::fmod(rotation.y, 360.f), std::fmod(rotation.z, 360.f));
 
-	// Setup where the camera is looking by default.
+	// Default direction vectors
 	upVec = Vector3(0.0f, 1.0f, 0.0f);
 	forwardVec = Vector3(0.0f, 0.0f, 1.0f);
 
-	// Get the camera rotation in radians.
+	// Get the rotation in radians
 	Vector3 rotationVector = MathUtils::DegToRad(this->rotation);
 
-	// Create the rotation matrix from the (Y axis), pitch (X axis), and roll (Z axis) values (as radians).
+	// Create the rotation matrix from the (Y axis), pitch (X axis), and roll (Z axis) values (as radians)
 	Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(rotationVector.y, rotationVector.x, rotationVector.z);
 
-	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
+	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin
 	forwardVec = Vector3::TransformNormal(forwardVec, rotationMatrix);
 	upVec = Vector3::TransformNormal(upVec, rotationMatrix);
 	rightVec = forwardVec.Cross(upVec);
