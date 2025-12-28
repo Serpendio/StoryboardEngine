@@ -19,7 +19,7 @@ void StoryboardEngine::CameraComponent::Render()
 	Vector3 lookAtVector = positionVector + GetTransform()->GetForward();
 
 	// Finally create the view matrix from the three updated vectors.
-	m_viewMatrix = Matrix::CreateLookAt(positionVector, lookAtVector, GetTransform()->GetUp());
+	m_viewMatrix = DirectX::XMMatrixLookAtLH(positionVector, lookAtVector, GetTransform()->GetUp());
 
 	ColourShader::SetViewMatrix(m_viewMatrix);
 }

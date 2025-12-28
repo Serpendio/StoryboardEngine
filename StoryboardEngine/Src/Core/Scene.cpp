@@ -189,7 +189,7 @@ StoryboardEngine::Scene::Scene(const std::filesystem::path& filepath)
 					Logger::LogInfo(indents, comp->GetSerializedType(), ":", comp->GetUUID().ToString());
 				}
 
-				tillUnindent.push_back(lastRef->children.Size());
+				tillUnindent.push_back(static_cast<int>(lastRef->children.Size()));
 				for (auto& so : lastRef->children)
 				{
 					sceneLayout.push_back(so);

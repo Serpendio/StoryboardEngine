@@ -102,13 +102,14 @@ void StoryboardEngine::SceneTransform::SetRotation(const Vector3& rotation)
 		return;
 
 	changedThisFrame = true;
+	this->rotation = Vector3(std::fmod(rotation.x, 360.f), std::fmod(rotation.y, 360.f), std::fmod(rotation.z, 360.f));
 
 	// Setup where the camera is looking by default.
 	upVec = Vector3(0.0f, 1.0f, 0.0f);
 	forwardVec = Vector3(0.0f, 0.0f, 1.0f);
 
 	// Get the camera rotation in radians.
-	Vector3 rotationVector = MathUtils::DegToRad(GetTransform()->GetGlobalRotation());
+	Vector3 rotationVector = MathUtils::DegToRad(this->rotation);
 
 	// Create the rotation matrix from the (Y axis), pitch (X axis), and roll (Z axis) values (as radians).
 	Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(rotationVector.y, rotationVector.x, rotationVector.z);
@@ -117,7 +118,6 @@ void StoryboardEngine::SceneTransform::SetRotation(const Vector3& rotation)
 	forwardVec = Vector3::TransformNormal(forwardVec, rotationMatrix);
 	upVec = Vector3::TransformNormal(upVec, rotationMatrix);
 	rightVec = forwardVec.Cross(upVec);
-	this->rotation = rotation;
 }
 
 void StoryboardEngine::SceneTransform::SetPosition(const Vector3& position)
@@ -134,8 +134,13 @@ void StoryboardEngine::SceneTransform::SetScale(const Vector3& scale)
 
 void StoryboardEngine::SceneTransform::LookAt(const Vector3& toPosition, const Vector3& toUpVec)
 {
+	FaceDirection(toPosition - position, toUpVec);
+}
+
+void StoryboardEngine::SceneTransform::FaceDirection(const Vector3& direction, const Vector3& toUpVec)
+{
 	changedThisFrame = true;
-	Matrix rotationMatrix = Matrix::CreateLookAt(position, toPosition, toUpVec);
+	Matrix rotationMatrix = Matrix::CreateWorld(position, -direction, toUpVec);
 
 	forwardVec = Vector3::TransformNormal(Vector3(0, 0, 1), rotationMatrix);
 	upVec = Vector3::TransformNormal(Vector3(0, 1, 0), rotationMatrix);
@@ -145,12 +150,7 @@ void StoryboardEngine::SceneTransform::LookAt(const Vector3& toPosition, const V
 	Quaternion rotationQuat;
 	rotationMatrix.Decompose(scale, rotationQuat, translation);
 
-	rotation = MathUtils::RadToDeg(rotationQuat.ToEuler());
-}
-
-void StoryboardEngine::SceneTransform::FaceDirection(const Vector3& direction, const Vector3& toUpVec)
-{
-	LookAt(direction + position, toUpVec);
+	SetRotation(MathUtils::RadToDeg(rotationQuat.ToEuler()));
 }
 
 bool StoryboardEngine::SceneTransform::GetChangedThisFrame() const

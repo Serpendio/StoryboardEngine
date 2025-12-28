@@ -7,5 +7,6 @@
 // ToDo: Find an alternative to SimpleMath that doesn't fill up intellisense with windows bloat
 #include <directxtk/SimpleMath.h>
 using namespace DirectX::SimpleMath;
+// https://github.com/microsoft/DirectXTK/wiki/SimpleMath#coordinate-systems for LH functions
 #include "Utils/SimpleMathJsonImpl.h"
 #include "Utils/Logger.h"

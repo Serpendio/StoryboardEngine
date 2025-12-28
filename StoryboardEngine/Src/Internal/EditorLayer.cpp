@@ -53,7 +53,7 @@ void StoryboardEngine::EditorLayer::SaveScene()
 	if (!scene)
 		return;
 
-	// ToDo: Unlike other files, saving should be done directly to the project files, but loading should still be done relative to the executable
+	// ToDo: Unlike other files, saving should be done both directly to the project files and relative to the executable, but loading should still be done relative to the executable
 
 	// create folder if it doesn't exist
 	std::filesystem::create_directories(sceneFilePath.parent_path());
@@ -141,7 +141,7 @@ void StoryboardEngine::EditorLayer::RenderGUI()
 	ImGui::Begin(currentSceneName.c_str());
 
 	//CreateHeirarchy(skybox->GetSceneObject());
-	//CreateHeirarchy(sceneCamera);
+	CreateHeirarchy(sceneCamera);
 
 	ImGui::Checkbox("Debug View", &debugMode);
 

@@ -66,10 +66,9 @@ void StoryboardEngine::SceneObject::DrawInspector(bool debug)
 				}
 			}
 
+			sortedComponents[i]->OnDrawInspector();
 			if (debug)
 				sortedComponents[i]->OnDrawDebugInspector();
-			else
-				sortedComponents[i]->OnDrawInspector();
 		}
 		ImGui::PopID();
 	}
