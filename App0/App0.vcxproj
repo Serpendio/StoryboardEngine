@@ -200,11 +200,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\MainMenu.h" />
     <ClInclude Include="Components\ReferenceLinkTest.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppEntry.cpp" />
+    <ClCompile Include="Components\MainMenu.cpp" />
     <ClCompile Include="Components\ReferenceLinkTest.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

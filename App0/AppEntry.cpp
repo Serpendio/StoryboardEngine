@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "Core/UserRegistry.h"
+#include "Components/MainMenu.h"
 #include "Components/ReferenceLinkTest.h"
 
 void StoryboardEngine::RegisterApplicationComponents()
 {
+	StoryboardEngine::ComponentRegistry::RegisterComponent<MainMenu>();
 	StoryboardEngine::ComponentRegistry::RegisterComponent<ReferenceLinkTest>();
 }
 
