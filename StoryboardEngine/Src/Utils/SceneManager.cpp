@@ -2,6 +2,7 @@
 #include "Utils/SceneManager.h"
 #include "Core/Scene.h"
 #include "Internal/EditorLayer.h"
+#include "Utils/ApplicationUtils.h"
 
 std::shared_ptr<StoryboardEngine::Scene> StoryboardEngine::SceneManager::s_currentScene = nullptr;
 std::string StoryboardEngine::SceneManager::s_sceneToLoad;
@@ -12,6 +13,12 @@ std::unordered_map<std::string, std::string> StoryboardEngine::SceneManager::s_s
 
 void StoryboardEngine::SceneManager::LoadScene(std::string sceneName)
 {
+	if (!ApplicationUtils::IsPlaying())
+	{
+		// Stops the user from loading scenes outside of play mode (without using the scene switcher in the editor)
+		return;
+	}
+
 	auto it = s_scenes.find(sceneName.data());
 	if (it == s_scenes.end())
 	{
@@ -35,6 +42,18 @@ void StoryboardEngine::SceneManager::Shutdown()
 		s_editorLayer = nullptr;
 	}
 #endif
+}
+
+void StoryboardEngine::SceneManager::LoadSceneEditor(std::string sceneName)
+{
+	auto it = s_scenes.find(sceneName.data());
+	if (it == s_scenes.end())
+	{
+		Logger::LogWarning("Scene not found: ", sceneName);
+		return;
+	}
+
+	s_sceneToLoad = sceneName;
 }
 
 void StoryboardEngine::SceneManager::Initialize()

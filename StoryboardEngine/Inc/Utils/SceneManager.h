@@ -18,6 +18,7 @@ namespace StoryboardEngine
 		static void LoadScene(std::string sceneName);
 
 	protected:
+		static void LoadSceneEditor(std::string sceneName);
 		static void Initialize();
 		static void Shutdown();
 
@@ -29,6 +30,7 @@ namespace StoryboardEngine
 		static void LoadInitialScene();
 
 		friend class ApplicationCore;
+		friend class EditorLayer;
 	private:
 		SceneManager() = delete;
 		

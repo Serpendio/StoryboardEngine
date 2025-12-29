@@ -26,6 +26,7 @@ namespace StoryboardEngine
 		// The component the user wants to add to the selected object
 		std::size_t componentToAdd;
 		std::string componentToAddName;
+		std::string sceneToSwitchTo;
 		bool debugMode = false;
 		bool renderScenePOV = false;
 

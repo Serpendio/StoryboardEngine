@@ -141,7 +141,7 @@ void StoryboardEngine::EditorLayer::RenderGUI()
 	ImGui::Begin(currentSceneName.c_str());
 
 	//CreateHeirarchy(skybox->GetSceneObject());
-	CreateHeirarchy(sceneCamera);
+	//CreateHeirarchy(sceneCamera);
 
 	ImGui::Checkbox("Debug View", &debugMode);
 
@@ -157,7 +157,7 @@ void StoryboardEngine::EditorLayer::RenderGUI()
 			SaveScene();
 
 			ApplicationUtils::isPlaying = true;
-			SceneManager::LoadScene(editingSceneName);
+			SceneManager::LoadSceneEditor(editingSceneName);
 #endif
 		}
 	}
@@ -167,12 +167,48 @@ void StoryboardEngine::EditorLayer::RenderGUI()
 		{
 #ifdef _EDITOR
 			ApplicationUtils::isPlaying = false;
-			SceneManager::LoadScene(editingSceneName);
+			SceneManager::LoadSceneEditor(editingSceneName);
 #endif
 		}
 	}
 
 	ImGui::Checkbox("Scene View", &renderScenePOV);
+
+	if (ImGui::Button("Switch Scene"))
+	{
+		ImGui::OpenPopup("Switch_Scene");
+		sceneToSwitchTo = currentSceneName;
+	}
+
+	if (ImGui::BeginPopup("Switch_Scene"))
+	{
+		if (ImGui::BeginCombo("Scenes", sceneToSwitchTo.c_str()))
+		{
+			for (auto& possibleScene : SceneManager::s_scenes)
+			{
+				const std::string& sceneName = possibleScene.first;
+
+				const bool is_selected = (sceneToSwitchTo == sceneName);
+				if (ImGui::Selectable(sceneName.c_str(), is_selected))
+				{
+					sceneToSwitchTo = sceneName;
+				}
+
+				// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+
+		if (ImGui::Button("Switch"))
+		{
+			SceneManager::LoadSceneEditor(sceneToSwitchTo);
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
 
 	ImGui::End();
 
