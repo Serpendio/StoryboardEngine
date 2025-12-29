@@ -7,6 +7,8 @@ namespace StoryboardEngine::Logger
 {
 	// ToDo: Is it possible to link back into IDE to see the line that logged the error/warning/info? (Like Unity does)
 
+    void CheckDebugBreak();
+
     template <typename... Args>
     void LogInfo(Args... args)
     {
@@ -28,9 +30,7 @@ namespace StoryboardEngine::Logger
 
         std::wclog << oss.str() << std::endl;
 
-#if defined(_DEBUG) && defined(_BREAK_ON_LOG_ERROR)
-        DebugBreak();
-#endif
+        CheckDebugBreak();
     }
 
 	// ToDo: Allow custom exception types
@@ -45,11 +45,7 @@ namespace StoryboardEngine::Logger
 
         std::wcerr << oss.str() << std::endl;
 
-#if defined(_DEBUG) && defined(_BREAK_ON_LOG_ERROR)
-        // ToDo: Breakpoint
-		DebugBreak();
-        //throw std::runtime_error(StringUtils::ToString(oss.str()));
-#endif
+        CheckDebugBreak();
     }
 };
 

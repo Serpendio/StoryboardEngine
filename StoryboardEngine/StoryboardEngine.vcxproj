@@ -141,7 +141,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_BREAK_ON_LOG_ERROR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_BREAK_ON_LOG_ERROR;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -164,7 +164,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_EDITOR;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_BREAK_ON_LOG_ERROR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_EDITOR;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_BREAK_ON_LOG_ERROR;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -264,6 +264,7 @@
     <ClCompile Include="Src\Core\Scene.cpp" />
     <ClCompile Include="Src\Core\SceneComponent.cpp" />
     <ClCompile Include="Src\Core\SceneObject.cpp" />
+    <ClCompile Include="Src\Utils\Logger.cpp" />
     <ClCompile Include="Src\Utils\SceneReference.cpp" />
     <ClCompile Include="Src\Core\SceneTransform.cpp" />
     <ClCompile Include="Src\Core\SerializableObject.cpp" />
