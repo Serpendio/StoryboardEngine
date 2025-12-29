@@ -18,6 +18,7 @@ namespace StoryboardEngine
 		friend class SceneComponent; // for shared_from_this
 		friend class Scene;
 		friend class EditorLayer;
+		friend class SceneReferenceGUIDrawer;
 
 		SerializableObject(const SerializableObject&) = delete;
 		SerializableObject(SerializableObject&&) = delete;

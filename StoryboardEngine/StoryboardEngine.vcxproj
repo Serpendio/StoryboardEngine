@@ -239,6 +239,7 @@
     <ClInclude Include="Inc\Utils\Logger.h" />
     <ClInclude Include="Inc\Utils\MathUtils.h" />
     <ClInclude Include="Inc\Utils\SceneReference.h" />
+    <ClInclude Include="Inc\Utils\SceneReferenceGUIDrawer.h" />
     <ClInclude Include="Inc\Utils\Serialization.h" />
     <ClInclude Include="Inc\Utils\SimpleMathJsonImpl.h" />
     <ClInclude Include="Inc\Utils\StringUtils.h" />
