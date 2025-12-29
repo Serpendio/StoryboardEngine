@@ -144,6 +144,7 @@ void StoryboardEngine::SceneObject::LinkComponent(std::shared_ptr<SceneComponent
 {
 	SerializableObject::idToObject[component->GetUUID()] = component;
 	auto& comp = components.Add(componentHash, SceneReference<SceneComponent>(component));
+	comp->OnConstructed();
 	GetScene()->RegisterNewComponent(comp);
 
 #ifdef _EDITOR

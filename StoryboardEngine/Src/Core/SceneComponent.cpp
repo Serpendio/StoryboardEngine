@@ -28,6 +28,7 @@ void StoryboardEngine::SceneComponent::Initialize(SceneReference<SceneObject> at
 StoryboardEngine::SceneComponent::~SceneComponent() {} // https://stackoverflow.com/a/14631710 - Keeps SceneComponent from being instantiatable but also solve the issue of the destructor needing to be defined
 
 // ToDo: Do I call all of these?
+void StoryboardEngine::SceneComponent::OnConstructed() {}
 void StoryboardEngine::SceneComponent::OnAwake() {}
 void StoryboardEngine::SceneComponent::OnAwakeEditor() {}
 void StoryboardEngine::SceneComponent::OnStart() {}

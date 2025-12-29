@@ -23,6 +23,8 @@ namespace StoryboardEngine
 
 		virtual ~SceneComponent() = 0;
 		void Initialize(SceneReference<SceneObject> parentObject); // Should only be callable once
+		// Called only once, immediately after first construction. Will not be called again on scene load, etc.
+		virtual void OnConstructed();
 		// Called immediately after construction when in play
 		virtual void OnAwake();
 		// Called immediately after construction when in editor
