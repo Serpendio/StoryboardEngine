@@ -1,17 +1,18 @@
 #include "pch.h"
 #include "Core/UserRegistry.h"
+#include "Components/ReferenceLinkTest.h"
 
 void StoryboardEngine::RegisterApplicationComponents()
 {
-	// Example:
-	// StoryboardEngine::ComponentRegistry::RegisterComponent<YourCustomComponent>();
+	StoryboardEngine::ComponentRegistry::RegisterComponent<ReferenceLinkTest>();
 }
 
 void StoryboardEngine::RegisterApplicationScenes(std::unordered_map<std::string, std::string>& sceneNameToPathMap, std::string& initialScene)
 {
-	// Example:
-	// sceneNameToPathMap["SampleScene"] = "Assets/Scenes/SampleScene.scene";
-	// initialScene = "SampleScene";
+	sceneNameToPathMap["MenuScene"] = "Resources/Scenes/MenuScene.scene";
+	sceneNameToPathMap["TestScene"] = "Resources/Scenes/TestScene.scene";
+	sceneNameToPathMap["GameScene"] = "Resources/Scenes/GameScene.scene";
+	initialScene = "MenuScene";
 }
 
 [[nodiscard]] void StoryboardEngine::RegisterApplicationModels(std::unordered_map<std::string, std::string>& modelNameToPathMap)
