@@ -216,17 +216,21 @@ void StoryboardEngine::ApplicationCore::Shutdown()
 
 void StoryboardEngine::ApplicationCore::Run()
 {
-	bool done, result;
+	bool running = true;
+	bool result;
 
 	// Loop until there is a quit message from the window or the user.
-	done = false;
 	SDL_Event e;
 
 	TimeManager::Initialize();
 	
 	SceneManager::LoadInitialScene();
 
-	while (!done)
+#ifdef _EDITOR
+	while (running)
+#else
+	while (running && ApplicationUtils::IsPlaying())
+#endif
 	{
 		TimeManager::Frame();
 
@@ -236,14 +240,16 @@ void StoryboardEngine::ApplicationCore::Run()
 
 			if (e.type == SDL_EVENT_QUIT)
 			{
-				done = true;
+				running = false;
 			}
 			else if (e.type == SDL_EVENT_WINDOW_RESIZED || e.type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED)
 			{
 				// Handle window resize: Recreate swap chain and render target view
 				int windowWidth, windowHeight;
 				SDL_GetWindowSizeInPixels(m_Window, &windowWidth, &windowHeight); // For drawable size in pixels
-				
+				ApplicationUtils::screenWidth = windowWidth;
+				ApplicationUtils::screenHeight = windowHeight;
+
 				// ToDo: Resize without recreating D3DRenderer
 				ImGui_ImplDX11_Shutdown();
 				ImGui_ImplSDL3_Shutdown();
@@ -270,24 +276,14 @@ void StoryboardEngine::ApplicationCore::Run()
 
 
 		// Otherwise do the frame processing.
-		result = Frame();
-		if (!result)
-		{
-			done = true;
-		}
+		Frame();
 	}
 
 	return;
 }
 
-bool StoryboardEngine::ApplicationCore::Frame()
+void StoryboardEngine::ApplicationCore::Frame()
 {
-	// Check if the user pressed escape and wants to exit the application.
-	if (Input::GetKeyState(SDL_SCANCODE_ESCAPE) == ButtonState::PRESSED)
-	{
-		return false;
-	}
-
 	// Start the Dear ImGui frame
 	// Platform new frame first, then renderer new frame, then ImGui::NewFrame
 	ImGui_ImplSDL3_NewFrame();
@@ -313,6 +309,4 @@ bool StoryboardEngine::ApplicationCore::Frame()
 
 	// Present the rendered scene to the screen.
 	m_Direct3D->EndScene();
-
-	return true;
 }

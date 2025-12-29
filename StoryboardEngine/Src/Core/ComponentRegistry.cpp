@@ -9,6 +9,7 @@ std::shared_ptr<StoryboardEngine::SceneComponent> StoryboardEngine::ComponentReg
 	auto it = componentRegistry.find(componentHash);
 	if (it == componentRegistry.end())
 	{
+		// ToDo: Allow the user to relink components that have changed name (and fix other corruptions)
 		Logger::LogError("Component type not registered with hash: ", componentHash);
 		return nullptr;
 	}

@@ -2,9 +2,9 @@
 #include "Utils/ApplicationUtils.h"
 
 bool StoryboardEngine::ApplicationUtils::deserializingScene = false;
-#ifdef _EDITOR
 bool StoryboardEngine::ApplicationUtils::isPlaying = false;
-#endif
+int StoryboardEngine::ApplicationUtils::screenWidth = 1920;
+int StoryboardEngine::ApplicationUtils::screenHeight = 1080;
 
 bool StoryboardEngine::ApplicationUtils::IsDeserializingScene()
 {
@@ -13,9 +13,16 @@ bool StoryboardEngine::ApplicationUtils::IsDeserializingScene()
 
 bool StoryboardEngine::ApplicationUtils::IsPlaying()
 {
-#ifdef _EDITOR
 	return isPlaying;
-#else
-	return true;
-#endif
+}
+
+void StoryboardEngine::ApplicationUtils::GetScreenSize(int& width, int& height)
+{
+	width = screenWidth;
+	height = screenHeight;
+}
+
+void StoryboardEngine::ApplicationUtils::Quit()
+{
+	isPlaying = false;
 }

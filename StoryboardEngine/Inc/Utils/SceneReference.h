@@ -13,12 +13,15 @@ namespace StoryboardEngine
 	// Non-templated base for SceneReference so we can store heterogeneous references
 	class SceneReferenceBase
 	{
+	protected:
+		friend class Scene;
+
+		// Map of UUID -> SceneReferenceBase* to fix-up references after deserialization.
+		static std::vector<std::pair<UUID, SceneReferenceBase*>> objectsToLink;
 	public:
 		virtual ~SceneReferenceBase() = 0;
 		virtual void Resolve(const std::shared_ptr<SerializableObject>& target) = 0;
 
-		// Map of UUID -> SceneReferenceBase* to fix-up references after deserialization.
-		static std::vector<std::pair<UUID, SceneReferenceBase*>> objectsToLink;
 	};
 
 	// A reference to a serializable object, basically a weak pointer with forced serialization support
@@ -214,6 +217,8 @@ namespace StoryboardEngine
 		{
 			if (nlohmann_json_j.is_null())
 			{
+				// ToDo: Usually this is fine (e.g. root's parent, or references that just aren't set)
+				// but it would be nice to give more info just in case it's unexpected
 				Logger::LogInfo("Loaded SceneReference<", NAMEOF_SHORT_TYPE(T), "> as Null");
 				return;
 			}

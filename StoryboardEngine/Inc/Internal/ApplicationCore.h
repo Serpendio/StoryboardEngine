@@ -32,7 +32,7 @@ namespace StoryboardEngine
 		void Run();
 
 	private:
-		bool Frame();
+		void Frame();
 
 	private:
 		HWND m_HWND;

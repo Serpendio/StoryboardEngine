@@ -5,12 +5,12 @@ namespace StoryboardEngine
 	class ApplicationUtils
 	{
 		static bool deserializingScene;
-#ifdef _EDITOR
 		static bool isPlaying;
-#endif
+		static int screenWidth, screenHeight;
 
 		friend class Scene;
 		friend class EditorLayer;
+		friend class ApplicationCore;
 	public:
 		static constexpr bool InEditor()
 		{
@@ -22,5 +22,8 @@ namespace StoryboardEngine
 		}
 		static bool IsDeserializingScene();
 		static bool IsPlaying();
+		static void GetScreenSize(int& width, int& height);
+
+		static void Quit();
 	};
 }

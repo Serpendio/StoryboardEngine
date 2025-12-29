@@ -68,6 +68,14 @@ namespace StoryboardEngine
 		// Called in editor post render if the object is selected
 		virtual void OnDrawGizmosSelected();
 
+		// ToDo: Construct child as a copy of another child (Prefab instantiation)
+		/* template<typename T>
+		SceneReference<T> AddChildAsCopy(SceneReference<T> otherChild)
+		{
+		// if T is a SceneObject construct exact copy and return
+		// if T is a Component, construct its parent as a copy and return the component reference
+		}*/
+		
 		// Adds a component of type T to the object. Returns a reference to the new component, or the existing one if it already exists
 		template<typename T>
 		SceneReference<T> AddComponent()

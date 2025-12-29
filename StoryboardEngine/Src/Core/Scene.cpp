@@ -184,9 +184,27 @@ StoryboardEngine::Scene::Scene(const std::filesystem::path& filepath)
 				indent++;
 				indents += "\t";
 
+				for (int i = 0; i < lastRef->components.Size(); i++)
+				{
+					if (!lastRef->components.At(i))
+					{
+						// ToDo: Eww:
+						lastRef->components.RemoveFast(lastRef->components.GetKey(i));
+					}
+				}
+
 				for (auto& comp : lastRef->components)
 				{
 					Logger::LogInfo(indents, comp->GetSerializedType(), ":", comp->GetUUID().ToString());
+				}
+
+				for (int i = 0; i < lastRef->children.Size(); i++)
+				{
+					if (!lastRef->children.At(i))
+					{
+						// ToDo: Eww:
+						lastRef->children.Remove(lastRef->children.GetKey(i));
+					}
 				}
 
 				tillUnindent.push_back(static_cast<int>(lastRef->children.Size()));
@@ -240,6 +258,7 @@ StoryboardEngine::Scene::Scene()
 
 StoryboardEngine::Scene::~Scene()
 {
+	Logger::LogInfo("Destroying scene");
 	root->DestroyChildrenRecursively();
 	SerializableObject::idToObject.erase(root->GetUUID());
 

@@ -5,10 +5,22 @@
 
 static StoryboardEngine::UUID toStoryboardEngineUUID(const uuids::uuid& in_uuid)
 {
+	if (in_uuid.is_nil())
+	{
+		return StoryboardEngine::UUID();
+	}
+
 	std::array<uint8_t, 16> out_uuid{};
 	auto in_bytes = in_uuid.as_bytes();
-	std::memcpy(out_uuid.data(), in_bytes.data(), out_uuid.size());
-	return out_uuid;
+
+	if (in_bytes.size() != out_uuid.size())
+	{
+		StoryboardEngine::Logger::LogError("Error converting UUID: size mismatch");
+		return StoryboardEngine::UUID();
+	}
+
+	std::memcpy(out_uuid.data(), in_bytes.data(), in_bytes.size());
+	return StoryboardEngine::UUID(out_uuid);
 }
 
 static uuids::uuid toUUIDLibraryUUID(const StoryboardEngine::UUID& in_uuid)
@@ -17,7 +29,7 @@ static uuids::uuid toUUIDLibraryUUID(const StoryboardEngine::UUID& in_uuid)
 	return uuids::uuid(in_bytes);
 }
 
-constexpr StoryboardEngine::UUID::UUID(uint8_t(&arr)[16]) noexcept
+constexpr StoryboardEngine::UUID::UUID(uint8_t(&arr)[16])
 {
 	std::copy(std::cbegin(arr), std::cend(arr), std::begin(data));
 #ifdef _EDITOR
@@ -30,23 +42,23 @@ StoryboardEngine::UUID StoryboardEngine::UUID::Generate()
 	return toStoryboardEngineUUID(uuids::uuid_system_generator{}());
 }
 
-const std::array<uint8_t, 16>& StoryboardEngine::UUID::GetBytes() const noexcept
+const std::array<uint8_t, 16>& StoryboardEngine::UUID::GetBytes() const
 {
 	return data;
 }
 
-bool StoryboardEngine::UUID::is_nil() const noexcept
+bool StoryboardEngine::UUID::is_nil() const
 {
 	for (size_t i = 0; i < data.size(); ++i) if (data[i] != 0) return false;
 	return true;
 }
 
-bool StoryboardEngine::UUID::is_valid_uuid(const std::string& in_str) noexcept
+bool StoryboardEngine::UUID::is_valid_uuid(const std::string& in_str)
 {
 	return uuids::uuid::is_valid_uuid(in_str);
 }
 
-StoryboardEngine::UUID StoryboardEngine::UUID::from_string(const std::string& in_str) noexcept
+StoryboardEngine::UUID StoryboardEngine::UUID::from_string(const std::string& in_str)
 {
 	auto opt_uuid = uuids::uuid::from_string(in_str);
 	if (opt_uuid.has_value())

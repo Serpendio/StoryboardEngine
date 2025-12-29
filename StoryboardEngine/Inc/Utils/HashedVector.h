@@ -188,6 +188,28 @@ namespace StoryboardEngine
 		}
 		*/
 
+		// ToDo: Should be able to remove by index, and by iterator, foreach should give the iterator too
+
+		const KeyType& GetKey(size_t index) const
+		{
+			if (index >= elements.size())
+			{
+				StoryboardEngine::Logger::LogError("Index out of bounds in HashedVector");
+			}
+
+			for (const auto& [k, v] : indexMap)
+			{
+				if (v == index)
+				{
+					return k;
+				}
+			}
+
+			StoryboardEngine::Logger::LogError("Index not found in indexMap in HashedVector");
+			static KeyType dummyKey{};
+			return dummyKey;
+		}
+
 		ValueType& At(size_t index)
 		{
 			if (index >= elements.size())

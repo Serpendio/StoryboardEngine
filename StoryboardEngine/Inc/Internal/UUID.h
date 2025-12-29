@@ -9,22 +9,22 @@ namespace StoryboardEngine
 	class UUID
 	{
 	public:
-		UUID() noexcept = default;
-		UUID(const UUID& other) noexcept = default;
-		UUID& operator=(const UUID& other) noexcept = default;
-		constexpr UUID(const std::array<uint8_t, 16>& data) noexcept : data(data) 
+		UUID() = default;
+        UUID(const UUID& other) = default;
+        UUID& operator=(const UUID& other) = default;
+		constexpr UUID(const std::array<uint8_t, 16>& data) : data(data) 
         {
 #ifdef _EDITOR
             dataAsString = ToString();
 #endif
         }
-		constexpr UUID(uint8_t(&arr)[16]) noexcept;
+		constexpr UUID(uint8_t(&arr)[16]);
 
 		static UUID Generate();
-		const std::array<uint8_t, 16>& GetBytes() const noexcept;
-        bool is_nil() const noexcept;
-        static bool is_valid_uuid(const std::string& in_str) noexcept;
-        static UUID from_string(const std::string& in_str) noexcept;
+		const std::array<uint8_t, 16>& GetBytes() const;
+        bool is_nil() const;
+        static bool is_valid_uuid(const std::string& in_str);
+        static UUID from_string(const std::string& in_str);
 		std::string ToString() const;
 
 		/*bool operator==(const UUID& other) const

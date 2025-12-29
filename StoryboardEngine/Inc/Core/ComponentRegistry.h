@@ -15,7 +15,7 @@ namespace StoryboardEngine
 	{
 	public:
 		template<typename TComponent>
-		static void RegisterComponent()
+		[[nodiscard]] static void RegisterComponent()
 		{
 			// Ensure TComponent is derived from SceneComponent and not abstract
 			static_assert(std::is_base_of<SceneComponent, TComponent>::value, "TComponent must be derived from SceneComponent");
