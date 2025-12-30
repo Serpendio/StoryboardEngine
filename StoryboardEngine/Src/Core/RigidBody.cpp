@@ -7,31 +7,12 @@
 
 StoryboardEngine::RigidBody::~RigidBody()
 {
-	JPH::BodyInterface& bodyInterface = StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface();
-	bodyInterface.RemoveBody(bodyID);
+	DestroyPhysicsBody();
 }
 
 void StoryboardEngine::RigidBody::OnAwake()
 {
-	Vector3 position = GetTransform()->GetGlobalPosition();
-	Vector3 rotation = GetTransform()->GetGlobalRotation();
-	Vector3 scale = GetTransform()->GetGlobalScale();
-	Quaternion rotationQuat = Quaternion::CreateFromYawPitchRoll(rotation.y, rotation.x, rotation.z);
-
-	JPH::BodyCreationSettings bodySettings(
-		new JPH::BoxShape(JPH::RVec3(scale.x, scale.y, scale.z)),
-		JPH::RVec3(position.x, position.y, position.z),
-		JPH::Quat(rotationQuat.x, rotationQuat.y, rotationQuat.z, rotationQuat.w),
-		JPH::EMotionType::Dynamic,
-		StoryboardEngine::Physics3D::PhysicsLayers::DYNAMIC
-	);
-
-	bodySettings.mGravityFactor = 1.0f;
-
-	JPH::Body* body = StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface().CreateBody(bodySettings);
-	body->SetUserData(reinterpret_cast<uint64_t>(GetSceneObject().get()));
-	StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface().AddBody(body->GetID(), JPH::EActivation::Activate);
-	bodyID = body->GetID();
+	CreatePhysicsBody();
 }
 
 void StoryboardEngine::RigidBody::UpdateState(bool newState)
@@ -56,11 +37,50 @@ void StoryboardEngine::RigidBody::UpdateState(bool newState)
 	}
 }
 
+void StoryboardEngine::RigidBody::OnDrawInspector()
+{
+	StoryboardEngine::SceneComponent::OnDrawInspector();
+
+	Vector3 velVec = GetVelocity();
+	ImGui::DragFloat3("Velocity", &velVec.x, 0.1f);
+	if (ImGui::IsItemEdited()) // ToDo: Add IsItemEdited to all the other areas
+	{
+		SetVelocity(velVec);
+	}
+	Vector3 angVelVec = GetAngularVelocity();
+	ImGui::DragFloat3("Angular Velocity", &angVelVec.x, 0.1f);
+	if (ImGui::IsItemEdited())
+	{
+		SetAngularVelocity(angVelVec);
+	}
+
+	if (ApplicationUtils::IsPlaying())
+	{
+		float gravity = StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface().GetGravityFactor(bodyID);
+		ImGui::DragFloat("Gravity Factor", &gravity, 0.01f);
+		if (ImGui::IsItemEdited())
+		{
+			StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface().SetGravityFactor(bodyID, gravity);
+			StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface().ActivateBody(bodyID);
+		}
+	}
+	else
+	{
+		ImGui::DragFloat("Gravity Factor", &gravityFactor, 0.01f);
+	}
+
+	bool staticState = isStatic;
+	if (ImGui::Checkbox("Is Static", &staticState))
+	{
+		SetIsStatic(staticState);
+	}
+}
+
 void StoryboardEngine::RigidBody::OnDrawDebugInspector()
 {
 	StoryboardEngine::SceneComponent::OnDrawDebugInspector();
 
-	ImGui::Text("Body ID: %u", bodyID.GetIndexAndSequenceNumber());
+	ImGui::TextDisabled("Body ID: %u", bodyID.GetIndexAndSequenceNumber());
 }
 
 JPH::BodyID StoryboardEngine::RigidBody::GetBodyID() const
@@ -92,4 +112,43 @@ Vector3 StoryboardEngine::RigidBody::GetAngularVelocity() const
 	JPH::BodyInterface& bodyInterface = StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface();
 	JPH::Vec3 angVel = bodyInterface.GetAngularVelocity(bodyID);
 	return Vector3(angVel.GetX(), angVel.GetY(), angVel.GetZ());
+}
+
+void StoryboardEngine::RigidBody::SetIsStatic(bool staticState)
+{
+	isStatic = staticState;
+	DestroyPhysicsBody();
+	CreatePhysicsBody();
+}
+
+void StoryboardEngine::RigidBody::CreatePhysicsBody()
+{
+	Vector3 position = GetTransform()->GetGlobalPosition();
+	Vector3 rotation = GetTransform()->GetGlobalRotation();
+	Vector3 scale = GetTransform()->GetGlobalScale();
+	Quaternion rotationQuat = Quaternion::CreateFromYawPitchRoll(rotation.y, rotation.x, rotation.z);
+
+	JPH::EMotionType motionType = isStatic ? JPH::EMotionType::Static : JPH::EMotionType::Dynamic;
+	JPH::ObjectLayer layer = isStatic ? Physics3D::PhysicsLayers::STATIC : Physics3D::PhysicsLayers::DYNAMIC;
+
+	JPH::BodyCreationSettings bodySettings(
+		new JPH::BoxShape(JPH::RVec3(scale.x, scale.y, scale.z)),
+		JPH::RVec3(position.x, position.y, position.z),
+		JPH::Quat(rotationQuat.x, rotationQuat.y, rotationQuat.z, rotationQuat.w),
+		motionType,
+		layer
+	);
+
+	bodySettings.mGravityFactor = gravityFactor;
+
+	JPH::Body* body = StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface().CreateBody(bodySettings);
+	body->SetUserData(reinterpret_cast<uint64_t>(GetSceneObject().get()));
+	StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface().AddBody(body->GetID(), JPH::EActivation::Activate);
+	bodyID = body->GetID();
+}
+
+void StoryboardEngine::RigidBody::DestroyPhysicsBody()
+{
+	JPH::BodyInterface& bodyInterface = StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface();
+	bodyInterface.RemoveBody(bodyID);
 }
