@@ -141,7 +141,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_BREAK_ON_LOG_ERROR;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_OBJECT_STREAM;_DEBUG;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_BREAK_ON_LOG_ERROR;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -164,7 +164,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_EDITOR;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_BREAK_ON_LOG_ERROR;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_OBJECT_STREAM;_DEBUG;_EDITOR;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_BREAK_ON_LOG_ERROR;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -189,7 +189,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_OBJECT_STREAM;NDEBUG;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -209,6 +209,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Inc\Core\ContactListener.h" />
     <ClInclude Include="Inc\Core\DrawableComponent.h" />
     <ClInclude Include="Inc\Core\CameraComponent.h" />
     <ClInclude Include="Inc\Core\ComponentRegistry.h" />
@@ -245,8 +246,14 @@
     <ClInclude Include="Inc\Utils\StringUtils.h" />
     <ClInclude Include="Inc\Core\ModelRenderer.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Inc\Internal\Physics3D.h" />
+    <ClInclude Include="Inc\Core\RigidBody.h" />
+    <ClInclude Include="Inc\Utils\SerializableUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Core\RigidBody.cpp" />
+    <ClCompile Include="Src\Core\ContactListener.cpp" />
+    <ClCompile Include="Src\Internal\Physics3D.cpp" />
     <ClCompile Include="Src\Core\ModelRenderer.cpp" />
     <ClCompile Include="Src\Core\DrawableComponent.cpp" />
     <ClCompile Include="pch.cpp">

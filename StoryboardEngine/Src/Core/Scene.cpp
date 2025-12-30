@@ -5,6 +5,8 @@
 #include "Utils/ApplicationUtils.h"
 #include "Core/DrawableComponent.h"
 #include "Core/CameraComponent.h"
+#include "Internal/Physics3D.h"
+#include "Core/Time.h"
 
 StoryboardEngine::Scene::Scene(const std::filesystem::path& filepath)
 {
@@ -276,6 +278,13 @@ void StoryboardEngine::Scene::Update()
 	newComponents.clear();
 
 	root->OnUpdate();
+
+	Physics3D::Update(Time::GetDeltaTime(), [&]
+	{
+		root->transform->SyncPhysicsBodyFromJolt();
+		root->OnFixedUpdate();
+		Physics3D::GetInstance()->contact_listener.FlushContactEvents(); // Process all collision events
+	});
 }
 
 void StoryboardEngine::Scene::Render(ID3D11DeviceContext* deviceContext)

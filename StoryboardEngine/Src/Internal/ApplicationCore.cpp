@@ -14,6 +14,7 @@
 #include "Core/ComponentRegistry.h"
 #include "Core/UserRegistry.h"
 #include "Internal/PrimativeModel.h"
+#include "Internal/Physics3D.h"
 
 // Include default components
 #include "Core/SceneTransform.h"
@@ -21,6 +22,7 @@
 #include "Core/CameraComponent.h"
 #include "Core/SerializableObject.h"
 #include "Core/ModelRenderer.h"
+#include "Core/RigidBody.h"
 
 StoryboardEngine::ApplicationCore* StoryboardEngine::ApplicationCore::s_instance = nullptr;
 
@@ -110,6 +112,9 @@ bool StoryboardEngine::ApplicationCore::Initialize()
 	ComponentRegistry::RegisterComponent<FreeCamController>();
 	ComponentRegistry::RegisterComponent<CameraComponent>();
 	ComponentRegistry::RegisterComponent<ModelRenderer>();
+	ComponentRegistry::RegisterComponent<RigidBody>();
+
+	Physics3D::Init();
 
 	SceneManager::Initialize();
 
@@ -186,6 +191,9 @@ void StoryboardEngine::ApplicationCore::Shutdown()
 
 	// Release the scene manager.
 	SceneManager::Shutdown();
+
+	// Release the physics system
+	Physics3D::Destroy();
 
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplSDL3_Shutdown();

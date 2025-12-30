@@ -376,10 +376,10 @@ void StoryboardEngine::SceneObject::OnCollisionEnter(SceneReference<SceneObject>
 		component->OnCollisionEnter(other);
 	}
 
-	for (auto& child : children)
+	/*for (auto& child : children)
 	{
 		child->OnCollisionEnter(other);
-	}
+	}*/
 }
 void StoryboardEngine::SceneObject::OnCollisionStay(SceneReference<SceneObject> other)
 {
@@ -388,10 +388,10 @@ void StoryboardEngine::SceneObject::OnCollisionStay(SceneReference<SceneObject> 
 		component->OnCollisionStay(other);
 	}
 
-	for (auto& child : children)
+	/*for (auto& child : children)
 	{
 		child->OnCollisionStay(other);
-	}
+	}*/
 }
 void StoryboardEngine::SceneObject::OnCollisionExit(SceneReference<SceneObject> other)
 {
@@ -400,10 +400,10 @@ void StoryboardEngine::SceneObject::OnCollisionExit(SceneReference<SceneObject> 
 		component->OnCollisionExit(other);
 	}
 
-	for (auto& child : children)
+	/*for (auto& child : children)
 	{
 		child->OnCollisionExit(other);
-	}
+	}*/
 }
 void StoryboardEngine::SceneObject::OnTriggerEnter(SceneReference<SceneObject> other)
 {
@@ -412,10 +412,10 @@ void StoryboardEngine::SceneObject::OnTriggerEnter(SceneReference<SceneObject> o
 		component->OnTriggerEnter(other);
 	}
 
-	for (auto& child : children)
+	/*for (auto& child : children)
 	{
 		child->OnTriggerEnter(other);
-	}
+	}*/
 }
 void StoryboardEngine::SceneObject::OnTriggerStay(SceneReference<SceneObject> other)
 {
@@ -424,10 +424,10 @@ void StoryboardEngine::SceneObject::OnTriggerStay(SceneReference<SceneObject> ot
 		component->OnTriggerStay(other);
 	}
 
-	for (auto& child : children)
+	/*for (auto& child : children)
 	{
 		child->OnTriggerStay(other);
-	}
+	}*/
 }
 void StoryboardEngine::SceneObject::OnTriggerExit(SceneReference<SceneObject> other)
 {
@@ -436,10 +436,10 @@ void StoryboardEngine::SceneObject::OnTriggerExit(SceneReference<SceneObject> ot
 		component->OnTriggerExit(other);
 	}
 
-	for (auto& child : children)
+	/*for (auto& child : children)
 	{
 		child->OnTriggerExit(other);
-	}
+	}*/
 }
 
 void StoryboardEngine::SceneObject::OnDrawGizmos()

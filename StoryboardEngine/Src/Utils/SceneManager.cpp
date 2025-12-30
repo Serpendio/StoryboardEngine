@@ -4,6 +4,7 @@
 #include "Internal/EditorLayer.h"
 #include "Utils/ApplicationUtils.h"
 #include "Internal/TimeManager.h"
+#include "Internal/Physics3D.h"
 
 std::shared_ptr<StoryboardEngine::Scene> StoryboardEngine::SceneManager::s_currentScene = nullptr;
 std::string StoryboardEngine::SceneManager::s_sceneToLoad;
@@ -84,6 +85,7 @@ void StoryboardEngine::SceneManager::UpdateScene()
 
 		// Reset the delta time to avoid large jumps
 		TimeManager::Frame();
+		Physics3D::GetInstance()->ResetTimeAccumulator();
 	}
 
 	if (s_currentScene)

@@ -34,6 +34,11 @@ namespace StoryboardEngine
 		ADD_SERIALIZATION(SceneComponent, SceneTransform,
 			JSON_VARIABLE(position), JSON_VARIABLE(rotation), JSON_VARIABLE(scale))
 	private:
+		void SyncPhysicsBodyToJolt();
+		void SyncPhysicsBodyFromJolt();
+
+		friend class Scene;
+	private:
 		Vector3 position = Vector3(0, 0, 0);
 		Vector3 rotation = Vector3(0, 0, 0); // rotation is in degrees, euler angles
 		Vector3 scale = Vector3(1, 1, 1);
@@ -42,5 +47,6 @@ namespace StoryboardEngine
 		Vector3 rightVec = Vector3(1, 0, 0);
 
 		bool changedThisFrame = true;
+		static bool suppressPhysicsSync;
 	};
 }
