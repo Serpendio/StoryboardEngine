@@ -157,6 +157,11 @@ namespace StoryboardEngine
 			return nullptr;
 		}
 
+		std::shared_ptr<T> lock() const
+		{
+			return ptr.lock();
+		}
+
 		T& operator*() const
 		{
 			static_assert(!std::is_void<T>::value, "Cannot use operator* on SceneReference of void type");

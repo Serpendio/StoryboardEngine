@@ -3,6 +3,7 @@
 #include "Core/Scene.h"
 #include "Internal/EditorLayer.h"
 #include "Utils/ApplicationUtils.h"
+#include "Internal/TimeManager.h"
 
 std::shared_ptr<StoryboardEngine::Scene> StoryboardEngine::SceneManager::s_currentScene = nullptr;
 std::string StoryboardEngine::SceneManager::s_sceneToLoad;
@@ -80,6 +81,9 @@ void StoryboardEngine::SceneManager::UpdateScene()
 		s_editorLayer->SetScene(s_scenes[s_sceneToLoad], s_sceneToLoad, s_currentScene);
 #endif
 		s_sceneToLoad.clear();
+
+		// Reset the delta time to avoid large jumps
+		TimeManager::Frame();
 	}
 
 	if (s_currentScene)

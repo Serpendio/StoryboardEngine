@@ -117,7 +117,7 @@ void StoryboardEngine::SceneTransform::SetRotation(const Vector3& rotation)
 	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin
 	forwardVec = Vector3::TransformNormal(forwardVec, rotationMatrix);
 	upVec = Vector3::TransformNormal(upVec, rotationMatrix);
-	rightVec = forwardVec.Cross(upVec);
+	rightVec = upVec.Cross(forwardVec);
 }
 
 void StoryboardEngine::SceneTransform::SetPosition(const Vector3& position)

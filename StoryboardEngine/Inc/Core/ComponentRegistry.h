@@ -53,6 +53,8 @@ namespace StoryboardEngine
 			return comp;
 		}
 
+		// ToDo: Hash should perhaps be the full name, not just the short name to avoid clashes between namespaces
+
 		template<typename T>
 		static std::size_t GetTypeHash()
 		{

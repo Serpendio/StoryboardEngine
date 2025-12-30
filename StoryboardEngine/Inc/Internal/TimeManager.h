@@ -10,6 +10,7 @@ namespace StoryboardEngine
 		static void Frame();
 
 		friend class ApplicationCore;
+		friend class SceneManager;
 	private:
 		TimeManager() = delete;
 

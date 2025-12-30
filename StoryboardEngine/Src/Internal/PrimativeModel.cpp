@@ -139,7 +139,7 @@ StoryboardEngine::PrimativeModel* StoryboardEngine::PrimativeModel::MakeCapsule(
     indices.reserve(latitudeLines * longitudeLines * 6);
 
     float halfHeight = aspectRatio >= 1.0f ? 0.5f : aspectRatio / 2.0f;
-    float radius = aspectRatio >= 1.0f ? aspectRatio / 2.0f : 0.5f;
+    float radius = aspectRatio >= 1.0f ? 1.0f / (2.0f * aspectRatio) : 0.5f;
 
     for (size_t pitch = 0; pitch <= latitudeLines; ++pitch)
     {

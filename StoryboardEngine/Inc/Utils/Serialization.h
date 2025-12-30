@@ -5,10 +5,11 @@
 
 // ToDo: Sort this messy file out
 // ToDo: Hint file?
+// ToDo: FROM_JSON has try except but the other types are still vulnerable
 
 // Macro for serializing objects, adapted from the json macros. Note for default, the Type must be default constructable
 #define TO_JSON(v1) StoryboardEngine::Logger::LogInfo("Serializing ", #v1); nlohmann_json_j[#v1] = nlohmann_json_t.v1;
-#define FROM_JSON(v1) StoryboardEngine::Logger::LogInfo("Deserializing ", #v1); nlohmann_json_j.at(#v1).get_to<decltype(nlohmann_json_t.v1)>(nlohmann_json_t.v1);
+#define FROM_JSON(v1) StoryboardEngine::Logger::LogInfo("Deserializing ", #v1); if (nlohmann_json_j.contains(#v1)) { try { nlohmann_json_j.at(#v1).get_to<decltype(nlohmann_json_t.v1)>(nlohmann_json_t.v1); } catch (const std::exception& e) { StoryboardEngine::Logger::LogError("Failed to deserialize ", #v1, ": ", e.what()); } }
 #define TO_JSON_WITH_DEFAULT(v1) if (nlohmann_json_default_obj.v1 != nlohmann_json_t.v1) { StoryboardEngine::Logger::LogInfo("Serializing ", #v1); nlohmann_json_j[#v1] = nlohmann_json_t.v1; }
 #define FROM_JSON_WITH_DEFAULT(v1) StoryboardEngine::Logger::LogInfo("Deserializing ", #v1); nlohmann_json_t.v1 = nlohmann_json_j.value(#v1, nlohmann_json_default_obj.v1);
 #define POINTER_TO_JSON(v1) if (nlohmann_json_t.v1) { StoryboardEngine::Logger::LogInfo("Serializing ", #v1); nlohmann_json_j[#v1] = *nlohmann_json_t.v1; } else { nlohmann_json_j[#v1] = nullptr; }
