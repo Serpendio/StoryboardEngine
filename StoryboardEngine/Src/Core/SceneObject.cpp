@@ -208,6 +208,30 @@ StoryboardEngine::SceneReference<StoryboardEngine::SceneObject> StoryboardEngine
 	return parent;
 }
 
+void StoryboardEngine::SceneObject::SetParent(SceneReference<SceneObject> newParent)
+{
+	if (!newParent || parent == newParent)
+		return;
+
+	Vector3 globalPos = transform->GetGlobalPosition();
+	Vector3 globalRot = transform->GetGlobalRotation();
+	Vector3 globalScale = transform->GetGlobalScale();
+
+	parent->children.Remove(GetUUID());
+
+	parent = newParent;
+	
+	parent->children.Add(GetUUID(), SceneReference<SerializableObject>(shared_from_this()).As<SceneObject>());
+
+	Vector3 localPos = transform->GlobalToLocalPosition(globalPos);
+	Vector3 localRot = transform->GlobalToLocalRotation(globalRot);
+	Vector3 localScale = transform->GlobalToLocalScale(globalScale);
+
+	transform->SetPosition(localPos);
+	transform->SetRotation(localRot);
+	transform->SetScale(localScale);
+}
+
 StoryboardEngine::Scene* StoryboardEngine::SceneObject::GetScene() const
 {
 	return attachedScene;

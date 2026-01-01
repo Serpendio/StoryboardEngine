@@ -8,6 +8,7 @@
 #include "Utils/SceneManager.h"
 #include "Core/SceneComponent.h"
 #include "Utils/ApplicationUtils.h"
+#include "Utils/SceneReferenceGUIDrawer.h"
 #include "Core/CameraComponent.h"
 #include "Core/SceneTransform.h"
 #include "Core/FreeCamController.h"
@@ -304,6 +305,45 @@ void StoryboardEngine::EditorLayer::RenderGUI()
 
 			if (componentToAdd == NULL)
 				ImGui::EndDisabled();
+
+			ImGui::EndPopup();
+		}
+
+		if (ImGui::Button("Set Parent"))
+		{
+			ImGui::OpenPopup("Set_Parent");
+		}
+
+		if (ImGui::BeginPopup("Set_Parent"))
+		{
+			SceneReference<SceneObject> parentRef = selectedInHeirarchy->GetParent();
+
+			std::function<bool(const SceneReference<SceneObject>&)> filter = [&](const SceneReference<SceneObject>& possibleParent)
+			{
+				// Can't set self or any children as parent
+				if (possibleParent == selectedInHeirarchy)
+					return false;
+
+				if (possibleParent == selectedInHeirarchy->GetParent())
+					return false;
+
+				auto currentParent = possibleParent->GetParent();
+				while (currentParent)
+				{
+					if (currentParent == selectedInHeirarchy)
+						return false;
+
+					currentParent = currentParent->GetParent();
+				}
+
+				return true;
+			};
+
+			if (SceneReferenceGUIDrawer::DrawSceneReferenceGUI<SceneObject>("Parent Object", parentRef, filter))
+			{
+				// Remove from old parent and add to new parent
+				selectedInHeirarchy->SetParent(parentRef);
+			}
 
 			ImGui::EndPopup();
 		}

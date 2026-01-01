@@ -32,6 +32,7 @@ namespace StoryboardEngine
 		void DestroyChild(UUID childID);
 		SceneReference<SceneTransform> GetTransform() const;
 		SceneReference<SceneObject> GetParent() const;
+		void SetParent(SceneReference<SceneObject> newParent);
 		Scene* GetScene() const;
 		void SetActive(bool activeState);
 		void UpdateState(bool activeState);
