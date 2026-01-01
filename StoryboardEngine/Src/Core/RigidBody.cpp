@@ -69,10 +69,12 @@ void StoryboardEngine::RigidBody::OnDrawInspector()
 		ImGui::DragFloat("Gravity Factor", &gravityFactor, 0.01f);
 	}
 
-	bool staticState = isStatic;
-	if (ImGui::Checkbox("Is Static", &staticState))
+	// Motion Type
+	const char* motionTypes[] = { "Static", "Kinematic", "Dynamic" };
+	int currentMotionType = static_cast<int>(motionType);
+	if (ImGui::Combo("Motion Type", &currentMotionType, motionTypes, IM_ARRAYSIZE(motionTypes)))
 	{
-		SetIsStatic(staticState);
+		SetMotionType(static_cast<JPH::EMotionType>(currentMotionType));
 	}
 }
 
@@ -81,6 +83,11 @@ void StoryboardEngine::RigidBody::OnDrawDebugInspector()
 	StoryboardEngine::SceneComponent::OnDrawDebugInspector();
 
 	ImGui::TextDisabled("Body ID: %u", bodyID.GetIndexAndSequenceNumber());
+
+	if (ImGui::Button("Awaken Body"))
+	{
+		StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface().ActivateBody(bodyID);
+	}
 }
 
 JPH::BodyID StoryboardEngine::RigidBody::GetBodyID() const
@@ -90,6 +97,11 @@ JPH::BodyID StoryboardEngine::RigidBody::GetBodyID() const
 
 void StoryboardEngine::RigidBody::SetVelocity(const Vector3& velocity) const
 {
+	if (!IsActive())
+	{
+		return;
+	}
+
 	JPH::BodyInterface& bodyInterface = StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface();
 	bodyInterface.SetLinearVelocity(bodyID, JPH::Vec3(velocity.x, velocity.y, velocity.z));
 }
@@ -103,6 +115,11 @@ Vector3 StoryboardEngine::RigidBody::GetVelocity() const
 
 void StoryboardEngine::RigidBody::SetAngularVelocity(const Vector3& angularVelocity) const
 {
+	if (!IsActive())
+	{
+		return;
+	}
+
 	JPH::BodyInterface& bodyInterface = StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface();
 	bodyInterface.SetAngularVelocity(bodyID, JPH::Vec3(angularVelocity.x, angularVelocity.y, angularVelocity.z));
 }
@@ -114,9 +131,9 @@ Vector3 StoryboardEngine::RigidBody::GetAngularVelocity() const
 	return Vector3(angVel.GetX(), angVel.GetY(), angVel.GetZ());
 }
 
-void StoryboardEngine::RigidBody::SetIsStatic(bool staticState)
+void StoryboardEngine::RigidBody::SetMotionType(JPH::EMotionType type)
 {
-	isStatic = staticState;
+	motionType = type;
 	DestroyPhysicsBody();
 	CreatePhysicsBody();
 }
@@ -125,11 +142,10 @@ void StoryboardEngine::RigidBody::CreatePhysicsBody()
 {
 	Vector3 position = GetTransform()->GetGlobalPosition();
 	Vector3 rotation = GetTransform()->GetGlobalRotation();
-	Vector3 scale = GetTransform()->GetGlobalScale();
+	Vector3 scale = GetTransform()->GetGlobalScale() / 2;
 	Quaternion rotationQuat = Quaternion::CreateFromYawPitchRoll(rotation.y, rotation.x, rotation.z);
 
-	JPH::EMotionType motionType = isStatic ? JPH::EMotionType::Static : JPH::EMotionType::Dynamic;
-	JPH::ObjectLayer layer = isStatic ? Physics3D::PhysicsLayers::STATIC : Physics3D::PhysicsLayers::DYNAMIC;
+	JPH::ObjectLayer layer = motionType == JPH::EMotionType::Static ? Physics3D::PhysicsLayers::STATIC : Physics3D::PhysicsLayers::DYNAMIC;
 
 	JPH::BodyCreationSettings bodySettings(
 		new JPH::BoxShape(JPH::RVec3(scale.x, scale.y, scale.z)),

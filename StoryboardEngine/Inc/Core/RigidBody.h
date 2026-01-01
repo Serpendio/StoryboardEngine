@@ -7,7 +7,7 @@ namespace StoryboardEngine
 	class RigidBody : public StoryboardEngine::SceneComponent
 	{
 		JPH::BodyID bodyID;
-		bool isStatic = false;
+		JPH::EMotionType motionType = JPH::EMotionType::Dynamic;
 
 		// ToDo: It'd be nice not to have to store the gravity all the time just for serialization, we don't need the variable at runtime
 		// Maybe we can have a custom serialization that accepts functions
@@ -26,10 +26,10 @@ namespace StoryboardEngine
 		void SetAngularVelocity(const Vector3& angularVelocity) const;
 		Vector3 GetAngularVelocity() const;
 
-		void SetIsStatic(bool staticState);
+		void SetMotionType(JPH::EMotionType type);
 
 		ADD_SERIALIZATION(SceneComponent, RigidBody,
-			JSON_VARIABLE(gravityFactor), JSON_VARIABLE(isStatic))
+			JSON_VARIABLE(gravityFactor), JSON_VARIABLE(motionType))
 	private:
 		void CreatePhysicsBody();
 		void DestroyPhysicsBody();
