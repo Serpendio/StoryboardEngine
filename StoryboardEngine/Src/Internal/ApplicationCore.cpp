@@ -48,8 +48,8 @@ bool StoryboardEngine::ApplicationCore::Initialize()
 
 	s_instance = this;
 
-	int windowWidth = 800;
-	int windowHeight = 600;
+	int windowWidth = 1280;
+	int windowHeight = 720;
 
 	// 2. Create an SDL3 Window
 	m_Window = SDL_CreateWindow(
@@ -118,7 +118,7 @@ bool StoryboardEngine::ApplicationCore::Initialize()
 
 	SceneManager::Initialize();
 
-	ResourceManager::UpdateDevice(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext());
+	ResourceManager::Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext());
 
 	m_ColourShader = new ColourShader();
 	m_ColourShader->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext());
@@ -258,7 +258,20 @@ void StoryboardEngine::ApplicationCore::Run()
 				ApplicationUtils::screenWidth = windowWidth;
 				ApplicationUtils::screenHeight = windowHeight;
 
-				// ToDo: Resize without recreating D3DRenderer
+				if (windowWidth <= 0 || windowHeight <= 0)
+				{
+					continue;
+				}
+
+				result = m_Direct3D->Resize(windowWidth, windowHeight, SCREEN_NEAR, SCREEN_DEPTH);
+				if (!result)
+				{
+					Logger::LogError("Failed to resize D3DRenderer.");
+					return;
+				}
+
+				/*
+				// ToNowDoneHopefully: Resize without recreating D3DRenderer
 				ImGui_ImplDX11_Shutdown();
 				ImGui_ImplSDL3_Shutdown();
 
@@ -277,6 +290,7 @@ void StoryboardEngine::ApplicationCore::Run()
 				Matrix projectionMatrix;
 				m_Direct3D->GetProjectionMatrix(projectionMatrix);
 				m_ColourShader->SetProjectionMatrix(projectionMatrix);
+				*/
 			}
 		}
 
@@ -306,6 +320,7 @@ void StoryboardEngine::ApplicationCore::Frame()
 
 	// Render engine content (world, objects, etc.)
 	SceneManager::RenderScene(m_Direct3D->GetDeviceContext());
+
 	// Build UI
 	//ImGui::ShowDemoWindow();
 	SceneManager::RenderSceneGUI();

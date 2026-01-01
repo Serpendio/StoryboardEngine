@@ -18,6 +18,7 @@ namespace StoryboardEngine
         ~D3DRenderer();
 
         bool Initialize(int, int, bool, HWND, bool, float, float);
+		bool Resize(int, int, float, float);
         void Shutdown();
 
         void BeginScene(float, float, float, float);

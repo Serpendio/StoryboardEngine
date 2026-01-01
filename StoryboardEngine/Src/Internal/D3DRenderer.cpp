@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Internal/D3DRenderer.h"
 
+// Note: Most code adapted from tutorials on www.rastertek.com
+
 StoryboardEngine::D3DRenderer::D3DRenderer()
 {
 	m_swapChain = nullptr;
@@ -97,9 +99,9 @@ bool StoryboardEngine::D3DRenderer::Initialize(int screenWidth, int screenHeight
 	// When a match is found store the numerator and denominator of the refresh rate for that monitor.
 	for (i = 0; i < numModes; i++)
 	{
-		if (displayModeList[i].Width == (unsigned int)screenWidth)
+		if (displayModeList[i].Width == static_cast<UINT>(screenWidth))
 		{
-			if (displayModeList[i].Height == (unsigned int)screenHeight)
+			if (displayModeList[i].Height == static_cast<UINT>(screenHeight))
 			{
 				numerator = displayModeList[i].RefreshRate.Numerator;
 				denominator = displayModeList[i].RefreshRate.Denominator;
@@ -210,7 +212,7 @@ bool StoryboardEngine::D3DRenderer::Initialize(int screenWidth, int screenHeight
 	}
 
 	// Get the pointer to the back buffer.
-	result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
+	result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<LPVOID*>(&backBufferPtr));
 	if (FAILED(result))
 	{
 		Logger::LogError("Failed to get back buffer.");
@@ -219,15 +221,16 @@ bool StoryboardEngine::D3DRenderer::Initialize(int screenWidth, int screenHeight
 
 	// Create the render target view with the back buffer pointer.
 	result = m_device->CreateRenderTargetView(backBufferPtr, NULL, &m_renderTargetView);
+
+	// Release pointer to the back buffer as we no longer need it.
+	backBufferPtr->Release();
+	backBufferPtr = nullptr;
+
 	if (FAILED(result))
 	{
 		Logger::LogError("Failed to create render target view.");
 		return false;
 	}
-
-	// Release pointer to the back buffer as we no longer need it.
-	backBufferPtr->Release();
-	backBufferPtr = nullptr;
 
 	// Initialize the description of the depth buffer.
 	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
@@ -331,8 +334,8 @@ bool StoryboardEngine::D3DRenderer::Initialize(int screenWidth, int screenHeight
 	m_deviceContext->RSSetState(m_rasterState);
 
 	// Setup the viewport for rendering.
-	m_viewport.Width = (float)screenWidth;
-	m_viewport.Height = (float)screenHeight;
+	m_viewport.Width = static_cast<float>(screenWidth);
+	m_viewport.Height = static_cast<float>(screenHeight);
 	m_viewport.MinDepth = 0.0f;
 	m_viewport.MaxDepth = 1.0f;
 	m_viewport.TopLeftX = 0.0f;
@@ -343,7 +346,7 @@ bool StoryboardEngine::D3DRenderer::Initialize(int screenWidth, int screenHeight
 
 	// Setup the projection matrix.
 	fieldOfView = DirectX::XMConvertToRadians(45);
-	screenAspect = (float)screenWidth / (float)screenHeight;
+	screenAspect = static_cast<float>(screenWidth) / static_cast<float>(screenHeight);
 
 	// Create the projection matrix for 3D rendering.
 	m_projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
@@ -352,9 +355,126 @@ bool StoryboardEngine::D3DRenderer::Initialize(int screenWidth, int screenHeight
 	m_worldMatrix = DirectX::XMMatrixIdentity();
 
 	// Create an orthographic projection matrix for 2D rendering.
-	m_orthoMatrix = DirectX::XMMatrixOrthographicLH((float)screenWidth, (float)screenHeight, screenNear, screenDepth);
+	m_orthoMatrix = DirectX::XMMatrixOrthographicLH(static_cast<float>(screenWidth), static_cast<float>(screenHeight), screenNear, screenDepth);
 
 	return true;
+}
+
+bool StoryboardEngine::D3DRenderer::Resize(int width, int height, float screenNear, float screenDepth)
+{
+	// ToDo: Much of this and Initialize() share code - refactor to reduce duplication.
+
+	if (width <= 0 || height <= 0 || !m_device || !m_swapChain || !m_deviceContext)
+	{
+		return false;
+	}
+
+	HRESULT result = S_OK;
+
+	// Unbind render targets to safely release them.
+	m_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
+
+	// Release existing views and buffers.
+	if (m_renderTargetView)
+	{
+		m_renderTargetView->Release();
+		m_renderTargetView = nullptr;
+	}
+
+	if (m_depthStencilView)
+	{
+		m_depthStencilView->Release();
+		m_depthStencilView = nullptr;
+	}
+
+	if (m_depthStencilBuffer)
+	{
+		m_depthStencilBuffer->Release();
+		m_depthStencilBuffer = nullptr;
+	}
+
+	// Resize the swap chain buffers.
+	result = m_swapChain->ResizeBuffers(1, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+	if (FAILED(result))
+	{
+		Logger::LogError("Failed to resize swap chain buffers.");
+		return false;
+	}
+
+	// Recreate the render target view from the back buffer.
+	ID3D11Texture2D* backBufferPtr = nullptr;
+	result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<LPVOID*>(&backBufferPtr));
+	if (FAILED(result))
+	{
+		Logger::LogError("Failed to get back buffer after resize.");
+		return false;
+	}
+
+	result = m_device->CreateRenderTargetView(backBufferPtr, nullptr, &m_renderTargetView);
+	backBufferPtr->Release();
+	backBufferPtr = nullptr;
+
+	if (FAILED(result))
+	{
+		Logger::LogError("Failed to create render target view after resize.");
+		return false;
+	}
+
+	// Recreate depth/stencil buffer and view (same description as Initialize).
+	D3D11_TEXTURE2D_DESC depthBufferDesc;
+	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
+
+	depthBufferDesc.Width = width;
+	depthBufferDesc.Height = height;
+	depthBufferDesc.MipLevels = 1;
+	depthBufferDesc.ArraySize = 1;
+	depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthBufferDesc.SampleDesc.Count = 1;
+	depthBufferDesc.SampleDesc.Quality = 0;
+	depthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthBufferDesc.CPUAccessFlags = 0;
+	depthBufferDesc.MiscFlags = 0;
+
+	result = m_device->CreateTexture2D(&depthBufferDesc, nullptr, &m_depthStencilBuffer);
+	if (FAILED(result))
+	{
+		Logger::LogError("Failed to create depth stencil buffer after resize.");
+		return false;
+	}
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+	ZeroMemory(&depthStencilViewDesc, sizeof(depthStencilViewDesc));
+
+	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	depthStencilViewDesc.Texture2D.MipSlice = 0;
+
+	result = m_device->CreateDepthStencilView(m_depthStencilBuffer, &depthStencilViewDesc, &m_depthStencilView);
+	if (FAILED(result))
+	{
+		Logger::LogError("Failed to create depth stencil view after resize.");
+		return false;
+	}
+
+	// Bind render target and depth stencil view.
+	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
+
+	// Update viewport.
+	m_viewport.Width = static_cast<float>(width);
+	m_viewport.Height = static_cast<float>(height);
+	m_viewport.MinDepth = 0.0f;
+	m_viewport.MaxDepth = 1.0f;
+	m_viewport.TopLeftX = 0.0f;
+	m_viewport.TopLeftY = 0.0f;
+	m_deviceContext->RSSetViewports(1, &m_viewport);
+
+	// Recompute projection and orthographic matrices.
+	const float fieldOfView = DirectX::XMConvertToRadians(45.0f);
+	const float screenAspect = static_cast<float>(width) / static_cast<float>(height);
+
+	m_projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
+	m_orthoMatrix = DirectX::XMMatrixOrthographicLH(static_cast<float>(width), static_cast<float>(height), screenNear, screenDepth);
 }
 
 void StoryboardEngine::D3DRenderer::Shutdown()
