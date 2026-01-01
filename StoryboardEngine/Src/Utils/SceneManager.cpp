@@ -77,6 +77,8 @@ void StoryboardEngine::SceneManager::UpdateScene()
 			s_currentScene = nullptr;
 		}
 
+		// ToDo: Render temporary "LOADING" or smthing
+
 		s_currentScene = std::make_shared<Scene>(s_scenes[s_sceneToLoad]);
 #ifdef _EDITOR
 		s_editorLayer->SetScene(s_scenes[s_sceneToLoad], s_sceneToLoad, s_currentScene);

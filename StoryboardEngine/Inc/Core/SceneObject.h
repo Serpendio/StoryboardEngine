@@ -152,6 +152,8 @@ namespace StoryboardEngine
 			static_assert(std::is_base_of<SceneComponent, T>::value, "Must be called with base type SceneComponent");
 			static_assert(!std::is_abstract<T>::value, "Trying to get an abstract component");
 
+			// ToDo: Consider components that are derived from T
+
 			std::vector<SceneReference<T>> result;
 
 			if (auto it = components.find(ComponentRegistry::GetTypeHash<T>()); it != components.end())

@@ -172,6 +172,8 @@ void StoryboardEngine::EditorLayer::RenderGUI()
 		}
 	}
 
+	// ToDo: Drag and drop to reorder / reparent objects in heirarchy, & to link references
+
 	ImGui::Checkbox("Scene View", &renderScenePOV);
 
 	if (ImGui::Button("Switch Scene"))

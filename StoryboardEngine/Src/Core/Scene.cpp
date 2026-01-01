@@ -272,7 +272,7 @@ void StoryboardEngine::Scene::Update()
 	for (auto& component : newComponents)
 	{
 		// ToDo: Should delay start call if component is not enabled
-		// ToDo: Is root start called twice on first frame
+		// ToDo: Is root start called twice on first frame (and does it matter if so?)
 		component->OnStart();
 	}
 	newComponents.clear();
