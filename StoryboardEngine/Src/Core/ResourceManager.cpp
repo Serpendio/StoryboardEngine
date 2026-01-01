@@ -105,7 +105,7 @@ ID3D11ShaderResourceView* StoryboardEngine::ResourceManager::GetTextureResource(
 
 	if (it == m_textureResources.end())
 	{
-		Logger::LogWarning("Texture resource ID not found: ", resourceID);
+		Logger::LogInfo("Texture resource ID not found: ", resourceID); // ToDo: Revert back to warning once we have a better way of tracking warnings without a fixed break statement
 		return m_textureResources.find(0)->second; // Return a default texture (ID 0) if not found
 	}
 
@@ -118,7 +118,7 @@ StoryboardEngine::ModelData* StoryboardEngine::ResourceManager::GetModelResource
 
 	if (it == m_modelResources.end())
 	{
-		Logger::LogWarning("Model resource ID not found: ", resourceID);
+		Logger::LogInfo("Model resource ID not found: ", resourceID);
 		return m_modelResources.find(0)->second; // Return a default model (ID 0) if not found
 	}
 
@@ -202,7 +202,7 @@ size_t StoryboardEngine::ResourceManager::LoadModel(const std::string& filepath,
 		aiProcess_ConvertToLeftHanded |
 		aiProcessPreset_TargetRealtime_Fast |
 		aiProcess_TransformUVCoords |
-		aiProcess_OptimizeGraph |
+		//aiProcess_OptimizeGraph |
 		aiProcess_OptimizeMeshes |
 		aiProcess_PreTransformVertices |
 		aiProcess_RemoveRedundantMaterials |
@@ -355,6 +355,8 @@ void StoryboardEngine::ResourceManager::Initialize(ID3D11Device* device, ID3D11D
 {
 	m_device = device;
 	m_deviceContext = deviceContext;
+
+	// ToDo: Assimp logger setup
 
 	CreateWhiteTexture();
 }

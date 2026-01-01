@@ -32,6 +32,7 @@ StoryboardEngine::ApplicationCore::ApplicationCore()
 	m_HWND = nullptr;
 	m_Direct3D = nullptr;
 	m_isFullscreen = false;
+	m_ColourShader = nullptr;
 }
 
 StoryboardEngine::ApplicationCore::~ApplicationCore()
