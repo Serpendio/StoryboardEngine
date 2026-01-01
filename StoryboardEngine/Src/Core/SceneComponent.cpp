@@ -42,7 +42,14 @@ void StoryboardEngine::SceneComponent::OnTriggerStay(SceneReference<SceneObject>
 void StoryboardEngine::SceneComponent::OnTriggerExit(SceneReference<SceneObject> other) {}
 void StoryboardEngine::SceneComponent::OnDrawGizmos() {}
 void StoryboardEngine::SceneComponent::OnDrawGizmosSelected() {}
-void StoryboardEngine::SceneComponent::OnDrawInspector() {}
+void StoryboardEngine::SceneComponent::OnDrawInspector() 
+{
+	bool wasEnabled = isEnabled;
+	if (ImGui::Checkbox("Enabled", &wasEnabled))
+	{
+		SetEnabled(wasEnabled);
+	}
+}
 
 void StoryboardEngine::SceneComponent::OnDrawDebugInspector()
 {
