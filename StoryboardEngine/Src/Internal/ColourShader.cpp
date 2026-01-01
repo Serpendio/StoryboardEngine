@@ -50,7 +50,7 @@ bool StoryboardEngine::ColourShader::Initialize(ID3D11Device* device, ID3D11Devi
 	return true;
 }
 
-void StoryboardEngine::ColourShader::SetWorldMatrix(Matrix& matrix)
+void StoryboardEngine::ColourShader::SetWorldMatrix(const Matrix& matrix)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -64,7 +64,8 @@ void StoryboardEngine::ColourShader::SetWorldMatrix(Matrix& matrix)
 	}
 
 	// Get a pointer to the data in the constant buffer and copy the transposed matrix.
-	Matrix transposed = matrix.Transpose();
+	Matrix transposed; 
+	matrix.Transpose(transposed);
 	memcpy(mappedResource.pData, &transposed, sizeof(Matrix));
 
 	// Unlock the constant buffer.
@@ -77,7 +78,7 @@ void StoryboardEngine::ColourShader::SetWorldMatrix(Matrix& matrix)
 	s_instance->m_context->VSSetConstantBuffers(bufferNumber, 1, &s_instance->m_worldMatrixBuffer);
 }
 
-void StoryboardEngine::ColourShader::SetViewMatrix(Matrix& matrix)
+void StoryboardEngine::ColourShader::SetViewMatrix(const Matrix& matrix)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -91,7 +92,8 @@ void StoryboardEngine::ColourShader::SetViewMatrix(Matrix& matrix)
 	}
 
 	// Get a pointer to the data in the constant buffer and copy the transposed matrix.
-	Matrix transposed = matrix.Transpose();
+	Matrix transposed;
+	matrix.Transpose(transposed);
 	memcpy(mappedResource.pData, &transposed, sizeof(Matrix));
 
 	// Unlock the constant buffer.
@@ -104,7 +106,7 @@ void StoryboardEngine::ColourShader::SetViewMatrix(Matrix& matrix)
 	s_instance->m_context->VSSetConstantBuffers(bufferNumber, 1, &s_instance->m_viewMatrixBuffer);
 }
 
-void StoryboardEngine::ColourShader::SetProjectionMatrix(Matrix& matrix)
+void StoryboardEngine::ColourShader::SetProjectionMatrix(const Matrix& matrix)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -118,7 +120,8 @@ void StoryboardEngine::ColourShader::SetProjectionMatrix(Matrix& matrix)
 	}
 
 	// Get a pointer to the data in the constant buffer and copy the transposed matrix.
-	Matrix transposed = matrix.Transpose();
+	Matrix transposed;
+	matrix.Transpose(transposed);
 	memcpy(mappedResource.pData, &transposed, sizeof(Matrix));
 
 	// Unlock the constant buffer.
@@ -131,7 +134,7 @@ void StoryboardEngine::ColourShader::SetProjectionMatrix(Matrix& matrix)
 	s_instance->m_context->VSSetConstantBuffers(bufferNumber, 1, &s_instance->m_projectionMatrixBuffer);
 }
 
-void StoryboardEngine::ColourShader::SetColourTint(Vector4& colour)
+void StoryboardEngine::ColourShader::SetColourTint(const Vector4& colour)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;

@@ -4,6 +4,7 @@
 #include "Internal/ModelData.h"
 #include "Internal/ColourShader.h"
 #include "Core/SceneTransform.h"
+#include "Core/SceneObject.h"
 #include "imgui.h"
 
 void StoryboardEngine::ModelRenderer::OnDraw(ID3D11DeviceContext* deviceContext)
@@ -12,8 +13,7 @@ void StoryboardEngine::ModelRenderer::OnDraw(ID3D11DeviceContext* deviceContext)
 
 	if (modelData)
 	{
-		Matrix matrix = GetTransform()->GetMatrix();
-		ColourShader::SetWorldMatrix(matrix);
+		ColourShader::SetWorldMatrix(GetSceneObject()->GetTransformMatrix());
 		ColourShader::SetColourTint(colourTint);
 		ColourShader::SetTexture(ResourceManager::GetTextureResource(textureResourceID));
 

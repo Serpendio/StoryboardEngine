@@ -266,6 +266,7 @@ void StoryboardEngine::ApplicationCore::Run()
 				result = m_Direct3D->Resize(windowWidth, windowHeight, SCREEN_NEAR, SCREEN_DEPTH);
 				if (!result)
 				{
+					// ToDo: This seems to happen sometimes when first starting the program, investigate further
 					Logger::LogError("Failed to resize D3DRenderer.");
 					return;
 				}
@@ -287,10 +288,11 @@ void StoryboardEngine::ApplicationCore::Run()
 
 				ResourceManager::UpdateDevice(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext());
 				m_ColourShader->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext());
+				*/
+
 				Matrix projectionMatrix;
 				m_Direct3D->GetProjectionMatrix(projectionMatrix);
 				m_ColourShader->SetProjectionMatrix(projectionMatrix);
-				*/
 			}
 		}
 

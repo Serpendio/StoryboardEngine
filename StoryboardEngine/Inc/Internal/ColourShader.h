@@ -25,10 +25,10 @@ namespace StoryboardEngine
 		void Shutdown();
 		//bool Render(ID3D11DeviceContext*, int, DirectX::XMMATRIX, DirectX::XMMATRIX, DirectX::XMMATRIX, ID3D11ShaderResourceView*);
 
-		static void SetWorldMatrix(Matrix& matrix);
-		static void SetViewMatrix(Matrix& matrix);
-		static void SetProjectionMatrix(Matrix& matrix);
-		static void SetColourTint(Vector4& colour);
+		static void SetWorldMatrix(const Matrix& matrix);
+		static void SetViewMatrix(const Matrix& matrix);
+		static void SetProjectionMatrix(const Matrix& matrix);
+		static void SetColourTint(const Vector4& colour);
 		static void SetTexture(ID3D11ShaderResourceView* texture);
 
 		static void Render(ID3D11DeviceContext*, int);
