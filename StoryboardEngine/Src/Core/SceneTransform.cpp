@@ -72,25 +72,7 @@ Vector3 StoryboardEngine::SceneTransform::GetLocalRotation() const
 
 Vector3 StoryboardEngine::SceneTransform::GetGlobalRotation() const
 {
-	// ToDo: Rotation should be stored internally as quaternion
-	Quaternion globalRotation = Quaternion::CreateFromYawPitchRoll(
-		MathUtils::DegToRad(rotation.y),
-		MathUtils::DegToRad(rotation.x),
-		MathUtils::DegToRad(rotation.z)
-	);
-	SceneReference<SceneObject> parent = GetSceneObject()->GetParent();
-	while (parent)
-	{
-		SceneReference<SceneTransform> parentTransform = parent->GetTransform();
-		Quaternion parentRotation = Quaternion::CreateFromYawPitchRoll(
-			MathUtils::DegToRad(parentTransform->rotation.y),
-			MathUtils::DegToRad(parentTransform->rotation.x),
-			MathUtils::DegToRad(parentTransform->rotation.z)
-		);
-		globalRotation = parentRotation * globalRotation;
-		parent = parent->GetParent();
-	}
-	return globalRotation.ToEuler();
+	return LocalToGlobalRotation(rotation);
 }
 
 Vector3 StoryboardEngine::SceneTransform::GetLocalPosition() const
@@ -100,28 +82,7 @@ Vector3 StoryboardEngine::SceneTransform::GetLocalPosition() const
 
 Vector3 StoryboardEngine::SceneTransform::GetGlobalPosition() const
 {
-	// Gets the global position, accounting for parent scale and rotation
-	Vector3 globalPosition = position;
-	SceneReference<SceneObject> parent = GetSceneObject()->GetParent();
-	while (parent)
-	{
-		SceneReference<SceneTransform> parentTransform = parent->GetTransform();
-		// Scale the position by the parent's scale
-		globalPosition.x *= parentTransform->scale.x;
-		globalPosition.y *= parentTransform->scale.y;
-		globalPosition.z *= parentTransform->scale.z;
-		// Rotate the position by the parent's rotation
-		Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(
-			MathUtils::DegToRad(parentTransform->rotation.y),
-			MathUtils::DegToRad(parentTransform->rotation.x),
-			MathUtils::DegToRad(parentTransform->rotation.z)
-		);
-		globalPosition = Vector3::TransformNormal(globalPosition, rotationMatrix);
-		// Add the parent's position
-		globalPosition += parentTransform->position;
-		parent = parent->GetParent();
-	}
-	return globalPosition;
+	return LocalToGlobalPosition(position);
 }
 
 Vector3 StoryboardEngine::SceneTransform::GetLocalScale() const
@@ -131,18 +92,7 @@ Vector3 StoryboardEngine::SceneTransform::GetLocalScale() const
 
 Vector3 StoryboardEngine::SceneTransform::GetGlobalScale() const
 {
-	// Gets the global scale, accounting for parent scale
-	Vector3 globalScale = scale;
-	SceneReference<SceneObject> parent = GetSceneObject()->GetParent();
-	while (parent)
-	{
-		SceneReference<SceneTransform> parentTransform = parent->GetTransform();
-		globalScale.x *= parentTransform->scale.x;
-		globalScale.y *= parentTransform->scale.y;
-		globalScale.z *= parentTransform->scale.z;
-		parent = parent->GetParent();
-	}
-	return globalScale;
+	return LocalToGlobalScale(scale);
 }
 
 void StoryboardEngine::SceneTransform::SetRotation(const Vector3& rotation)
@@ -238,6 +188,71 @@ void StoryboardEngine::SceneTransform::OnFinishedLoading()
 	SetRotation(rotation);
 }
 
+Vector3 StoryboardEngine::SceneTransform::LocalToGlobalPosition(const Vector3& localPosition) const
+{
+	// Gets the global position, accounting for parent scale and rotation
+	Vector3 globalPosition = localPosition;
+	SceneReference<SceneObject> parent = GetSceneObject()->GetParent();
+	while (parent)
+	{
+		SceneReference<SceneTransform> parentTransform = parent->GetTransform();
+		// Scale the position by the parent's scale
+		globalPosition.x *= parentTransform->scale.x;
+		globalPosition.y *= parentTransform->scale.y;
+		globalPosition.z *= parentTransform->scale.z;
+		// Rotate the position by the parent's rotation
+		Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(
+			MathUtils::DegToRad(parentTransform->rotation.y),
+			MathUtils::DegToRad(parentTransform->rotation.x),
+			MathUtils::DegToRad(parentTransform->rotation.z)
+		);
+		globalPosition = Vector3::TransformNormal(globalPosition, rotationMatrix);
+		// Add the parent's position
+		globalPosition += parentTransform->position;
+		parent = parent->GetParent();
+	}
+	return globalPosition;
+}
+
+Vector3 StoryboardEngine::SceneTransform::LocalToGlobalRotation(const Vector3& localRotation) const
+{
+	// ToDo: Rotation should be stored internally as quaternion
+	Quaternion globalRotation = Quaternion::CreateFromYawPitchRoll(
+		MathUtils::DegToRad(localRotation.y),
+		MathUtils::DegToRad(localRotation.x),
+		MathUtils::DegToRad(localRotation.z)
+	);
+	SceneReference<SceneObject> parent = GetSceneObject()->GetParent();
+	while (parent)
+	{
+		SceneReference<SceneTransform> parentTransform = parent->GetTransform();
+		Quaternion parentRotation = Quaternion::CreateFromYawPitchRoll(
+			MathUtils::DegToRad(parentTransform->rotation.y),
+			MathUtils::DegToRad(parentTransform->rotation.x),
+			MathUtils::DegToRad(parentTransform->rotation.z)
+		);
+		globalRotation = parentRotation * globalRotation;
+		parent = parent->GetParent();
+	}
+	return globalRotation.ToEuler();
+}
+
+Vector3 StoryboardEngine::SceneTransform::LocalToGlobalScale(const Vector3& localScale) const
+{
+	// Gets the global scale, accounting for parent scale
+	Vector3 globalScale = localScale;
+	SceneReference<SceneObject> parent = GetSceneObject()->GetParent();
+	while (parent)
+	{
+		SceneReference<SceneTransform> parentTransform = parent->GetTransform();
+		globalScale.x *= parentTransform->scale.x;
+		globalScale.y *= parentTransform->scale.y;
+		globalScale.z *= parentTransform->scale.z;
+		parent = parent->GetParent();
+	}
+	return globalScale;
+}
+
 void StoryboardEngine::SceneTransform::SyncPhysicsBodyToJolt()
 {
 #ifdef _EDITOR
@@ -268,7 +283,7 @@ void StoryboardEngine::SceneTransform::SyncPhysicsBodyToJolt()
 			JPH::EActivation::Activate
 		);
 
-		Vector3 globalScale = GetGlobalScale();
+		Vector3 globalScale = GetGlobalScale() / 2;
 		auto shape = physicsSystem.GetBodyInterface().GetShape(bodyID);
 		shape->ScaleShape(JPH::Vec3(globalScale.x, globalScale.y, globalScale.z));
 	}
@@ -304,9 +319,9 @@ void StoryboardEngine::SceneTransform::SyncPhysicsBodyFromJolt()
 		Vector3 globalRotation = rotationQuat.ToEuler();
 	
 		suppressPhysicsSync = true;
-		// ToDo: The position functions expect local not global
-		SetPosition(globalPosition);
-		SetRotation(MathUtils::RadToDeg(globalRotation));
+
+		SetPosition(GlobalToLocalPosition(globalPosition));
+		SetRotation(GlobalToLocalRotation(MathUtils::RadToDeg(globalRotation)));
 		suppressPhysicsSync = false;
 	}
 
@@ -317,4 +332,68 @@ void StoryboardEngine::SceneTransform::SyncPhysicsBodyFromJolt()
 		SceneReference<SceneTransform> childTransform = childObject->GetTransform();
 		childTransform->SyncPhysicsBodyFromJolt();
 	}
+}
+
+Vector3 StoryboardEngine::SceneTransform::GlobalToLocalPosition(const Vector3& globalPosition) const
+{
+	if (!GetSceneObject()->GetParent())
+	{
+		return globalPosition;
+	}
+
+	SceneReference<SceneTransform> parentTransform = GetSceneObject()->GetParent()->GetTransform();
+
+	// Translate into parent's origin
+	Vector3 delta = globalPosition - parentTransform->GetGlobalPosition();
+
+	// Rotate by inverse of parent's global rotation
+	Vector3 parentGlobalRot = parentTransform->GetGlobalRotation(); // degrees
+	Matrix parentRot = Matrix::CreateFromYawPitchRoll(
+		MathUtils::DegToRad(parentGlobalRot.y),
+		MathUtils::DegToRad(parentGlobalRot.x),
+		MathUtils::DegToRad(parentGlobalRot.z)
+	);
+
+	Matrix invParentRot = parentRot.Transpose();
+	Vector3 rotated = Vector3::TransformNormal(delta, invParentRot);
+
+	// Divide by parent's global scale
+	Vector3 parentGlobalScale = parentTransform->GetGlobalScale();
+
+	Vector3 safeScale(
+		fabs(parentGlobalScale.x) > FLT_EPSILON ? parentGlobalScale.x : FLT_EPSILON,
+		fabs(parentGlobalScale.y) > FLT_EPSILON ? parentGlobalScale.y : FLT_EPSILON,
+		fabs(parentGlobalScale.z) > FLT_EPSILON ? parentGlobalScale.z : FLT_EPSILON
+	);
+
+	return Vector3(rotated.x / safeScale.x, rotated.y / safeScale.y, rotated.z / safeScale.z);
+}
+
+Vector3 StoryboardEngine::SceneTransform::GlobalToLocalRotation(const Vector3& globalRotation) const
+{
+	if (!GetSceneObject()->GetParent())
+	{
+		return globalRotation;
+	}
+
+	Vector3 localRotation = globalRotation - GetSceneObject()->GetParent()->GetTransform()->GetGlobalRotation();
+	return localRotation;
+}
+
+Vector3 StoryboardEngine::SceneTransform::GlobalToLocalScale(const Vector3& globalScale) const
+{
+	if (!GetSceneObject()->GetParent())
+	{
+		return globalScale;
+	}
+
+	SceneReference<SceneTransform> parentTransform = GetSceneObject()->GetParent()->GetTransform();
+	Vector3 parentGlobalScale = parentTransform->GetGlobalScale();
+	Vector3 safeScale(
+		fabs(parentGlobalScale.x) > FLT_EPSILON ? parentGlobalScale.x : FLT_EPSILON,
+		fabs(parentGlobalScale.y) > FLT_EPSILON ? parentGlobalScale.y : FLT_EPSILON,
+		fabs(parentGlobalScale.z) > FLT_EPSILON ? parentGlobalScale.z : FLT_EPSILON
+	);
+
+	return Vector3(globalScale.x / safeScale.x, globalScale.y / safeScale.y, globalScale.z / safeScale.z);
 }
