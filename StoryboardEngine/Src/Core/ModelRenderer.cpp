@@ -14,6 +14,8 @@ void StoryboardEngine::ModelRenderer::OnDraw(ID3D11DeviceContext* deviceContext)
 	{
 		Matrix matrix = GetTransform()->GetMatrix();
 		ColourShader::SetWorldMatrix(matrix);
+		ColourShader::SetColourTint(colourTint);
+		ColourShader::SetTexture(ResourceManager::GetTextureResource(textureResourceID));
 
 		modelData->Render(deviceContext);
 	}
@@ -21,6 +23,10 @@ void StoryboardEngine::ModelRenderer::OnDraw(ID3D11DeviceContext* deviceContext)
 
 void StoryboardEngine::ModelRenderer::OnDrawInspector()
 {
+	StoryboardEngine::DrawableComponent::OnDrawInspector();
+
+	ImGui::ColorEdit4("Colour Tint", &colourTint.x);
+
 	std::string modelName = ResourceManager::GetModelName(modelResourceID);
 	if (ImGui::BeginCombo("Model", modelName.c_str()))
 	{

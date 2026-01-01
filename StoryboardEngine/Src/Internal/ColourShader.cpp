@@ -14,6 +14,7 @@ StoryboardEngine::ColourShader::ColourShader()
 	m_worldMatrixBuffer = nullptr;
 	m_viewMatrixBuffer = nullptr;
 	m_projectionMatrixBuffer = nullptr;
+	m_colourBuffer = nullptr;
 	m_samplerState = nullptr;
 	m_context = nullptr;
 }
@@ -130,6 +131,32 @@ void StoryboardEngine::ColourShader::SetProjectionMatrix(Matrix& matrix)
 	s_instance->m_context->VSSetConstantBuffers(bufferNumber, 1, &s_instance->m_projectionMatrixBuffer);
 }
 
+void StoryboardEngine::ColourShader::SetColourTint(Vector4& colour)
+{
+	HRESULT result;
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	unsigned int bufferNumber;
+
+	// Lock the constant buffer so it can be written to.
+	result = s_instance->m_context->Map(s_instance->m_colourBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if (FAILED(result))
+	{
+		return;
+	}
+
+	// Get a pointer to the data in the constant buffer and copy the colour tint.
+	memcpy(mappedResource.pData, &colour, sizeof(Vector4));
+
+	// Unlock the constant buffer.
+	s_instance->m_context->Unmap(s_instance->m_colourBuffer, 0);
+
+	// Set the position of the constant buffer in the pixel shader.
+	bufferNumber = 0;
+
+	// Finally set the constant buffer in the pixel shader with the updated values.
+	s_instance->m_context->PSSetConstantBuffers(bufferNumber, 1, &s_instance->m_colourBuffer);
+}
+
 void StoryboardEngine::ColourShader::SetTexture(ID3D11ShaderResourceView* texture)
 {
 	// Set the texture resource in the pixel shader.
@@ -148,7 +175,7 @@ bool StoryboardEngine::ColourShader::InitializeShader(ID3D11Device* device, cons
 	ID3D10Blob* pixelShaderBuffer;
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[3];
 	unsigned int numElements;
-	D3D11_BUFFER_DESC matrixBufferDesc;
+	D3D11_BUFFER_DESC bufferDesc;
 	D3D11_SAMPLER_DESC samplerDesc;
 
 
@@ -257,15 +284,15 @@ bool StoryboardEngine::ColourShader::InitializeShader(ID3D11Device* device, cons
 	pixelShaderBuffer = 0;
 
 	// Setup the description of the dynamic matrix constant buffer that is in the vertex shader.
-	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	matrixBufferDesc.ByteWidth = sizeof(Matrix);
-	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	matrixBufferDesc.MiscFlags = 0;
-	matrixBufferDesc.StructureByteStride = 0;
+	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	bufferDesc.ByteWidth = sizeof(Matrix);
+	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = 0;
 
 	// Create the constant buffer pointer so we can access the vertex shader constant buffer from within this class.
-	result = device->CreateBuffer(&matrixBufferDesc, NULL, &m_worldMatrixBuffer);
+	result = device->CreateBuffer(&bufferDesc, NULL, &m_worldMatrixBuffer);
 	if (FAILED(result))
 	{
 		Logger::LogError(L"ColourShader::InitializeShader", L"Failed to create world matrix buffer");
@@ -273,7 +300,7 @@ bool StoryboardEngine::ColourShader::InitializeShader(ID3D11Device* device, cons
 	}
 
 	// Create the constant buffer pointer so we can access the vertex shader constant buffer from within this class.
-	result = device->CreateBuffer(&matrixBufferDesc, NULL, &m_viewMatrixBuffer);
+	result = device->CreateBuffer(&bufferDesc, NULL, &m_viewMatrixBuffer);
 	if (FAILED(result))
 	{
 		Logger::LogError(L"ColourShader::InitializeShader", L"Failed to create view matrix buffer");
@@ -281,10 +308,19 @@ bool StoryboardEngine::ColourShader::InitializeShader(ID3D11Device* device, cons
 	}
 
 	// Create the constant buffer pointer so we can access the vertex shader constant buffer from within this class.
-	result = device->CreateBuffer(&matrixBufferDesc, NULL, &m_projectionMatrixBuffer);
+	result = device->CreateBuffer(&bufferDesc, NULL, &m_projectionMatrixBuffer);
 	if (FAILED(result))
 	{
 		Logger::LogError(L"ColourShader::InitializeShader", L"Failed to create projection matrix buffer");
+		return false;
+	}
+
+	bufferDesc.ByteWidth = sizeof(Vector4);
+
+	result = device->CreateBuffer(&bufferDesc, NULL, &m_colourBuffer);
+	if (FAILED(result))
+	{
+		Logger::LogError(L"ColourShader::InitializeShader", L"Failed to create colour buffer");
 		return false;
 	}
 
@@ -325,6 +361,12 @@ void StoryboardEngine::ColourShader::Shutdown()
 	{
 		m_projectionMatrixBuffer->Release();
 		m_projectionMatrixBuffer = nullptr;
+	}
+
+	if (m_colourBuffer)
+	{
+		m_colourBuffer->Release();
+		m_colourBuffer = nullptr;
 	}
 
 	// Release the layout.

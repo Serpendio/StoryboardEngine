@@ -17,6 +17,7 @@ std::unordered_map<std::string, size_t> StoryboardEngine::ResourceManager::m_mod
 ID3D11Device* StoryboardEngine::ResourceManager::m_device = nullptr;
 ID3D11DeviceContext* StoryboardEngine::ResourceManager::m_deviceContext = nullptr;
 Assimp::Importer* StoryboardEngine::ResourceManager::m_modelImporter = nullptr;
+ID3D11Texture2D* StoryboardEngine::ResourceManager::pTexture = nullptr;
 
 size_t StoryboardEngine::ResourceManager::GetTextureID(const std::string& resourceName)
 {
@@ -350,6 +351,14 @@ void StoryboardEngine::ResourceManager::ReleaseImporter()
 	}
 }
 
+void StoryboardEngine::ResourceManager::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
+{
+	m_device = device;
+	m_deviceContext = deviceContext;
+
+	CreateWhiteTexture();
+}
+
 void StoryboardEngine::ResourceManager::UpdateDevice(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 {
 	m_device = device;
@@ -363,7 +372,6 @@ void StoryboardEngine::ResourceManager::Shutdown()
 		if (resource)
 		{
 			resource->Release();
-			delete resource;
 		}
 	}
 	m_textureResources.clear();
@@ -376,5 +384,46 @@ void StoryboardEngine::ResourceManager::Shutdown()
 	m_modelResources.clear();
 	m_modelIDs.clear();
 
+	m_device = nullptr;
+	m_deviceContext = nullptr;
+
+	if (pTexture)
+	{
+		pTexture->Release();
+	}
+
 	ReleaseImporter();
+}
+
+void StoryboardEngine::ResourceManager::CreateWhiteTexture()
+{
+	// Credit to the DXFramework from CMP301 course at Abertay University for this function
+
+	constexpr uint32_t s_pixel = 0xffffffff;
+	ID3D11ShaderResourceView* texture = nullptr;
+
+	D3D11_SUBRESOURCE_DATA initData = { &s_pixel, sizeof(uint32_t), 0 };
+
+	D3D11_TEXTURE2D_DESC desc = {};
+	desc.Width = desc.Height = desc.MipLevels = desc.ArraySize = 1;
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.SampleDesc.Count = 1;
+	desc.Usage = D3D11_USAGE_IMMUTABLE;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+	HRESULT hr = m_device->CreateTexture2D(&desc, &initData, &pTexture);
+
+	if (SUCCEEDED(hr))
+	{
+		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
+		SRVDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		SRVDesc.Texture2D.MipLevels = 1;
+
+		hr = m_device->CreateShaderResourceView(pTexture, &SRVDesc, &texture);
+		m_textureResources[0] = texture;
+		m_textureIDs["__default_texture__"] = 0;
+
+		//pTexture->Release();
+	}
 }

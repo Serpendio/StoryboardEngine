@@ -28,6 +28,7 @@ namespace StoryboardEngine
 		static void SetWorldMatrix(Matrix& matrix);
 		static void SetViewMatrix(Matrix& matrix);
 		static void SetProjectionMatrix(Matrix& matrix);
+		static void SetColourTint(Vector4& colour);
 		static void SetTexture(ID3D11ShaderResourceView* texture);
 
 		static void Render(ID3D11DeviceContext*, int);
@@ -44,6 +45,7 @@ namespace StoryboardEngine
 		ID3D11Buffer* m_worldMatrixBuffer;
 		ID3D11Buffer* m_viewMatrixBuffer;
 		ID3D11Buffer* m_projectionMatrixBuffer;
+		ID3D11Buffer* m_colourBuffer;
 		ID3D11SamplerState* m_samplerState;
 
 		ID3D11DeviceContext* m_context;

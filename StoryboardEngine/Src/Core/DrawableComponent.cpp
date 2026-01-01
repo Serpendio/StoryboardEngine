@@ -18,6 +18,14 @@ void StoryboardEngine::DrawableComponent::OnAwakeEditor()
 	GetSceneObject()->GetScene()->RegisterDrawable(GetSelfReference());
 }
 
+void StoryboardEngine::DrawableComponent::OnDraw(ID3D11DeviceContext* deviceContext)
+{
+}
+
+/*void StoryboardEngine::DrawableComponent::OnDrawGUI()
+{
+}*/
+
 void StoryboardEngine::DrawableComponent::OnDrawInspector()
 {
 	SceneComponent::OnDrawInspector();
