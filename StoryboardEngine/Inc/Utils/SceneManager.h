@@ -27,7 +27,7 @@ namespace StoryboardEngine
 		static void RenderSceneGUI();
 
 		static void RegisterScene(const std::string& sceneName, const std::string& filePath);
-		static void LoadInitialScene();
+		static void LoadInitialScene(std::string initialSceneName);
 
 		friend class ApplicationCore;
 		friend class EditorLayer;

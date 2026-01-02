@@ -7,10 +7,11 @@ void StoryboardEngine::RegisterApplicationComponents()
 	// StoryboardEngine::ComponentRegistry::RegisterComponent<YourCustomComponent>();
 }
 
-void StoryboardEngine::RegisterApplicationScenes(std::unordered_map<std::string, std::string>& sceneNameToPathMap)
+void StoryboardEngine::RegisterApplicationScenes(std::unordered_map<std::string, std::string>& sceneNameToPathMap, std::string& initialScene)
 {
 	// Example:
-	sceneNameToPathMap["SampleScene"] = "Assets/Scenes/SampleScene.scene";
+	// sceneNameToPathMap["SampleScene"] = "Assets/Scenes/SampleScene.scene";
+	// initialScene = "SampleScene";
 }
 
 [[nodiscard]] void StoryboardEngine::RegisterApplicationModels(std::unordered_map<std::string, std::string>& modelNameToPathMap)

@@ -129,7 +129,7 @@ void StoryboardEngine::SceneManager::RegisterScene(const std::string& sceneName,
 	s_scenes[sceneName] = filePath;
 }
 
-void StoryboardEngine::SceneManager::LoadInitialScene()
+void StoryboardEngine::SceneManager::LoadInitialScene(std::string initialScene)
 {
 	if (s_scenes.empty())
 	{
@@ -137,7 +137,27 @@ void StoryboardEngine::SceneManager::LoadInitialScene()
 		return;
 	}
 
-	// Load the first registered scene
-	auto it = s_scenes.begin();
-	s_sceneToLoad = it->first;
+	if (initialScene.empty())
+	{
+		Logger::LogWarning("No initial scene specified.");
+
+		// Load the first registered scene
+		auto it = s_scenes.begin();
+		s_sceneToLoad = it->first;
+
+		return;
+	}
+
+	if (!s_scenes.contains(initialScene))
+	{
+		Logger::LogWarning("Initial scene not found: ", initialScene);
+
+		// Load the first registered scene
+		auto it = s_scenes.begin();
+		s_sceneToLoad = it->first;
+
+		return;
+	}
+
+	s_sceneToLoad = initialScene;
 }

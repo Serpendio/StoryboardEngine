@@ -164,13 +164,16 @@ bool StoryboardEngine::ApplicationCore::Initialize()
 
 	{
 		std::unordered_map<std::string, std::string> sceneNameToPathMap;
-		RegisterApplicationScenes(sceneNameToPathMap);
+		std::string initialScene;
+		RegisterApplicationScenes(sceneNameToPathMap, initialScene);
 		for (const auto& pair : sceneNameToPathMap)
 		{
 			const std::string& sceneName = pair.first;
 			const std::string& scenePath = pair.second;
 			SceneManager::RegisterScene(sceneName, scenePath);
 		}
+
+		SceneManager::LoadInitialScene(initialScene);
 	}
 
 	return true;
@@ -232,8 +235,6 @@ void StoryboardEngine::ApplicationCore::Run()
 	SDL_Event e;
 
 	TimeManager::Initialize();
-	
-	SceneManager::LoadInitialScene();
 
 #ifdef _EDITOR
 	while (running)
