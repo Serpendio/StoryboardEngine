@@ -166,12 +166,12 @@ StoryboardEngine::PrimativeModel* StoryboardEngine::PrimativeModel::MakeCapsule(
             ULONG bottomRight = static_cast<ULONG>(bottomLeft + 1);
             ULONG topLeft = static_cast<ULONG>(bottomLeft + (longitudeLines + 1));
             ULONG topRight = static_cast<ULONG>(topLeft + 1);
+            indices.push_back(bottomRight);
+            indices.push_back(topLeft);
             indices.push_back(bottomLeft);
-            indices.push_back(topLeft);
-            indices.push_back(bottomRight);
-            indices.push_back(bottomRight);
-            indices.push_back(topLeft);
             indices.push_back(topRight);
+            indices.push_back(topLeft);
+            indices.push_back(bottomRight);
         }
     }
 
