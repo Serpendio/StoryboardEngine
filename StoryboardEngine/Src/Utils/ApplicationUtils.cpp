@@ -3,8 +3,7 @@
 
 bool StoryboardEngine::ApplicationUtils::deserializingScene = false;
 bool StoryboardEngine::ApplicationUtils::isPlaying = false;
-int StoryboardEngine::ApplicationUtils::screenWidth = 1920;
-int StoryboardEngine::ApplicationUtils::screenHeight = 1080;
+Vector2 StoryboardEngine::ApplicationUtils::screenSize = Vector2(1280, 720);
 
 bool StoryboardEngine::ApplicationUtils::IsDeserializingScene()
 {
@@ -16,10 +15,9 @@ bool StoryboardEngine::ApplicationUtils::IsPlaying()
 	return isPlaying;
 }
 
-void StoryboardEngine::ApplicationUtils::GetScreenSize(int& width, int& height)
+Vector2 StoryboardEngine::ApplicationUtils::GetScreenSize()
 {
-	width = screenWidth;
-	height = screenHeight;
+	return screenSize;
 }
 
 void StoryboardEngine::ApplicationUtils::Quit()

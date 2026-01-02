@@ -135,6 +135,9 @@
     <ClInclude Include="Inc\Utils\SerializableUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\Utils\RayCasting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -234,6 +237,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Core\RigidBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Utils\RayCasting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

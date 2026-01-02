@@ -10,8 +10,12 @@ namespace StoryboardEngine
 		void OnUpdate() override;
 		void Render();
 		const Matrix& GetViewMatrix() const;
+		static const Matrix& GetProjectionMatrix();
 
 	private:
 		Matrix m_viewMatrix;
+		static Matrix s_projectionMatrix;
+
+		friend class ApplicationCore;
 	};
 }

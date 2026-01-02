@@ -231,6 +231,7 @@
     <ClInclude Include="Inc\Internal\ModelData.h" />
     <ClInclude Include="Inc\Internal\ModelFactory.h" />
     <ClInclude Include="Inc\Internal\PrimativeModel.h" />
+    <ClInclude Include="Inc\Utils\RayCasting.h" />
     <ClInclude Include="Inc\Utils\SceneManager.h" />
     <ClInclude Include="Inc\Internal\TimeManager.h" />
     <ClInclude Include="Inc\Internal\UUID.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="Src\Core\SceneComponent.cpp" />
     <ClCompile Include="Src\Core\SceneObject.cpp" />
     <ClCompile Include="Src\Utils\Logger.cpp" />
+    <ClCompile Include="Src\Utils\RayCasting.cpp" />
     <ClCompile Include="Src\Utils\SceneReference.cpp" />
     <ClCompile Include="Src\Core\SceneTransform.cpp" />
     <ClCompile Include="Src\Core\SerializableObject.cpp" />

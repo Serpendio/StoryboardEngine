@@ -1,12 +1,14 @@
 #pragma once
 
+#include "pch.h"
+
 namespace StoryboardEngine
 {
 	class ApplicationUtils
 	{
 		static bool deserializingScene;
 		static bool isPlaying;
-		static int screenWidth, screenHeight;
+		static Vector2 screenSize;
 
 		friend class Scene;
 		friend class EditorLayer;
@@ -22,7 +24,7 @@ namespace StoryboardEngine
 		}
 		static bool IsDeserializingScene();
 		static bool IsPlaying();
-		static void GetScreenSize(int& width, int& height);
+		static Vector2 GetScreenSize();
 
 		static void Quit();
 	};

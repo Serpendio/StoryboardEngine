@@ -5,6 +5,8 @@
 #include "Core/Scene.h"
 #include "Internal/ColourShader.h"
 
+Matrix StoryboardEngine::CameraComponent::s_projectionMatrix;
+
 void StoryboardEngine::CameraComponent::OnUpdate()
 {
 	GetSceneObject()->GetScene()->SetCamera(GetSelfReference());
@@ -27,4 +29,9 @@ void StoryboardEngine::CameraComponent::Render()
 const Matrix& StoryboardEngine::CameraComponent::GetViewMatrix() const
 {
 	return m_viewMatrix;
+}
+
+const Matrix& StoryboardEngine::CameraComponent::GetProjectionMatrix()
+{
+	return s_projectionMatrix;
 }

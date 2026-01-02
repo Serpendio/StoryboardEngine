@@ -256,8 +256,7 @@ void StoryboardEngine::ApplicationCore::Run()
 				// Handle window resize: Recreate swap chain and render target view
 				int windowWidth, windowHeight;
 				SDL_GetWindowSizeInPixels(m_Window, &windowWidth, &windowHeight); // For drawable size in pixels
-				ApplicationUtils::screenWidth = windowWidth;
-				ApplicationUtils::screenHeight = windowHeight;
+				ApplicationUtils::screenSize = Vector2(static_cast<float>(windowWidth), static_cast<float>(windowHeight));
 
 				if (windowWidth <= 0 || windowHeight <= 0)
 				{
@@ -294,6 +293,7 @@ void StoryboardEngine::ApplicationCore::Run()
 				Matrix projectionMatrix;
 				m_Direct3D->GetProjectionMatrix(projectionMatrix);
 				m_ColourShader->SetProjectionMatrix(projectionMatrix);
+				CameraComponent::s_projectionMatrix = projectionMatrix;
 			}
 		}
 
