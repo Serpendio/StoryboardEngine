@@ -10,7 +10,7 @@
 #include "Utils/SceneManager.h"
 #include "Internal/ColourShader.h"
 #include "Core/ResourceManager.h"
-#include "Core/Input.h"
+#include "Utils/Input.h"
 #include "Core/ComponentRegistry.h"
 #include "Core/UserRegistry.h"
 #include "Internal/PrimativeModel.h"
@@ -267,29 +267,9 @@ void StoryboardEngine::ApplicationCore::Run()
 				result = m_Direct3D->Resize(windowWidth, windowHeight, SCREEN_NEAR, SCREEN_DEPTH);
 				if (!result)
 				{
-					// ToDo: This seems to happen sometimes when first starting the program, investigate further
 					Logger::LogError("Failed to resize D3DRenderer.");
 					return;
 				}
-
-				/*
-				// ToNowDoneHopefully: Resize without recreating D3DRenderer
-				ImGui_ImplDX11_Shutdown();
-				ImGui_ImplSDL3_Shutdown();
-
-				m_Direct3D->Shutdown();
-				result = m_Direct3D->Initialize(windowWidth, windowHeight, VSYNC_ENABLED, m_HWND, m_isFullscreen, SCREEN_DEPTH, SCREEN_NEAR);
-				if (!result)
-				{
-					return;
-				}
-
-				ImGui_ImplSDL3_InitForD3D(m_Window);
-				ImGui_ImplDX11_Init(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext());
-
-				ResourceManager::UpdateDevice(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext());
-				m_ColourShader->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext());
-				*/
 
 				Matrix projectionMatrix;
 				m_Direct3D->GetProjectionMatrix(projectionMatrix);

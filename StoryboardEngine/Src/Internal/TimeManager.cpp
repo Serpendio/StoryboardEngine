@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Internal/TimeManager.h"
-#include "Core/Time.h"
+#include "Utils/Time.h"
 
 std::chrono::high_resolution_clock::time_point StoryboardEngine::TimeManager::m_startTime;
 std::chrono::high_resolution_clock::time_point StoryboardEngine::TimeManager::m_lastFrameTime;

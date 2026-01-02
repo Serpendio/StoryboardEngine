@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Core/FreeCamController.h"
-#include "Core/Input.h"
+#include "Utils/Input.h"
 #include "Core/SceneTransform.h"
-#include "Core/Time.h"
+#include "Utils/Time.h"
 #include <imgui.h>
 
 void StoryboardEngine::FreeCamController::OnUpdate()

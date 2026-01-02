@@ -214,14 +214,14 @@
     <ClInclude Include="Inc\Core\CameraComponent.h" />
     <ClInclude Include="Inc\Core\ComponentRegistry.h" />
     <ClInclude Include="Inc\Core\FreeCamController.h" />
-    <ClInclude Include="Inc\Core\Input.h" />
+    <ClInclude Include="Inc\Utils\Input.h" />
     <ClInclude Include="Inc\Core\ResourceManager.h" />
     <ClInclude Include="Inc\Core\Scene.h" />
     <ClInclude Include="Inc\Core\SceneComponent.h" />
     <ClInclude Include="Inc\Core\SceneObject.h" />
     <ClInclude Include="Inc\Core\SceneTransform.h" />
     <ClInclude Include="Inc\Core\SerializableObject.h" />
-    <ClInclude Include="Inc\Core\Time.h" />
+    <ClInclude Include="Inc\Utils\Time.h" />
     <ClInclude Include="Inc\Core\UserRegistry.h" />
     <ClInclude Include="Inc\Internal\ApplicationCore.h" />
     <ClInclude Include="Inc\Internal\ColourShader.h" />
@@ -268,7 +268,7 @@
     <ClCompile Include="Src\Core\CameraComponent.cpp" />
     <ClCompile Include="Src\Core\ComponentRegistry.cpp" />
     <ClCompile Include="Src\Core\FreeCamController.cpp" />
-    <ClCompile Include="Src\Core\Input.cpp" />
+    <ClCompile Include="Src\Utils\Input.cpp" />
     <ClCompile Include="Src\Core\ResourceManager.cpp" />
     <ClCompile Include="Src\Core\Scene.cpp" />
     <ClCompile Include="Src\Core\SceneComponent.cpp" />
@@ -278,7 +278,7 @@
     <ClCompile Include="Src\Utils\SceneReference.cpp" />
     <ClCompile Include="Src\Core\SceneTransform.cpp" />
     <ClCompile Include="Src\Core\SerializableObject.cpp" />
-    <ClCompile Include="Src\Core\Time.cpp" />
+    <ClCompile Include="Src\Utils\Time.cpp" />
     <ClCompile Include="Src\Internal\ApplicationCore.cpp" />
     <ClCompile Include="Src\Internal\ColourShader.cpp" />
     <ClCompile Include="Src\Internal\D3DRenderer.cpp" />

@@ -160,6 +160,7 @@ void StoryboardEngine::ModelData::RenderBuffers(ID3D11DeviceContext* deviceConte
 	// Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	// ToDo: Allow swapping shaders for if a developer wants to use a different shader
 	ColourShader::Render(deviceContext, m_indexCount);
 
 	return;

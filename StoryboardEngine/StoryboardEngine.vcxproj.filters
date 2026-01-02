@@ -30,7 +30,7 @@
     <ClInclude Include="Inc\Core\FreeCamController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\Core\Input.h">
+    <ClInclude Include="Inc\Utils\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Inc\Core\ResourceManager.h">
@@ -51,7 +51,7 @@
     <ClInclude Include="Inc\Core\SerializableObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\Core\Time.h">
+    <ClInclude Include="Inc\Utils\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Inc\Internal\ApplicationCore.h">
@@ -155,7 +155,7 @@
     <ClCompile Include="Src\Core\FreeCamController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Core\Input.cpp">
+    <ClCompile Include="Src\Utils\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Core\ResourceManager.cpp">
@@ -176,7 +176,7 @@
     <ClCompile Include="Src\Core\SerializableObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Core\Time.cpp">
+    <ClCompile Include="Src\Utils\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Internal\ApplicationCore.cpp">

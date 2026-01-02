@@ -475,6 +475,8 @@ bool StoryboardEngine::D3DRenderer::Resize(int width, int height, float screenNe
 
 	m_projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
 	m_orthoMatrix = DirectX::XMMatrixOrthographicLH(static_cast<float>(width), static_cast<float>(height), screenNear, screenDepth);
+
+	return true;
 }
 
 void StoryboardEngine::D3DRenderer::Shutdown()

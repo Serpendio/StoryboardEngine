@@ -288,8 +288,8 @@ void StoryboardEngine::SceneTransform::SyncPhysicsBodyToJolt()
 		shape->ScaleShape(JPH::Vec3(globalScale.x, globalScale.y, globalScale.z));
 	}
 
-	int childCount = GetSceneObject()->GetChildCount();
-	for (int i = 0; i < childCount; i++)
+	size_t childCount = GetSceneObject()->GetChildCount();
+	for (size_t i = 0; i < childCount; i++)
 	{
 		SceneReference<SceneObject> childObject = GetSceneObject()->GetChild(i);
 		SceneReference<SceneTransform> childTransform = childObject->GetTransform();
@@ -325,8 +325,8 @@ void StoryboardEngine::SceneTransform::SyncPhysicsBodyFromJolt()
 		suppressPhysicsSync = false;
 	}
 
-	int childCount = GetSceneObject()->GetChildCount();
-	for (int i = 0; i < childCount; i++)
+	size_t childCount = GetSceneObject()->GetChildCount();
+	for (size_t i = 0; i < childCount; i++)
 	{
 		SceneReference<SceneObject> childObject = GetSceneObject()->GetChild(i);
 		SceneReference<SceneTransform> childTransform = childObject->GetTransform();

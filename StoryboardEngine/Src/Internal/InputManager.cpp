@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Internal/InputManager.h"
-#include "Core/Input.h"
+#include "Utils/Input.h"
 #include <SDL3/SDL.h>
 #include "imgui.h"
 

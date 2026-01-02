@@ -6,7 +6,7 @@
 #include "Core/DrawableComponent.h"
 #include "Core/CameraComponent.h"
 #include "Internal/Physics3D.h"
-#include "Core/Time.h"
+#include "Utils/Time.h"
 
 StoryboardEngine::Scene::Scene(const std::filesystem::path& filepath)
 {
