@@ -13,6 +13,8 @@ void StoryboardEngine::ContactListener::OnContactAdded(const JPH::Body& inBody1,
 	const auto obj1 = reinterpret_cast<SceneObject*>(inBody1.GetUserData());
 	const auto obj2 = reinterpret_cast<SceneObject*>(inBody2.GetUserData());
 
+	Logger::LogInfo("Contact Added between ", obj1->name, " and ", obj2->name);
+
 	std::scoped_lock lock(queueMutex);
 	queue.push_back({ 
 		Type::Begin, 
@@ -43,6 +45,15 @@ void StoryboardEngine::ContactListener::OnContactRemoved(const JPH::SubShapeIDPa
 
 	const auto obj1 = reinterpret_cast<SceneObject*>(body1->GetUserData());
 	const auto obj2 = reinterpret_cast<SceneObject*>(body2->GetUserData());
+
+	if (SerializableObject::DoesObjectExist(obj1->GetUUID()) == false ||
+		SerializableObject::DoesObjectExist(obj2->GetUUID()) == false)
+	{
+		// One of the objects has been destroyed, skip the event
+		return; 
+
+		// ToDo: This possibly is an exploitable vulnerability, a pointer to a spot in memory that is no longer valid
+	}
 
 	std::scoped_lock lock(queueMutex);
 	queue.push_back({ 

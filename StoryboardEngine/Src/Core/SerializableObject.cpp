@@ -53,6 +53,11 @@ const StoryboardEngine::UUID& StoryboardEngine::SerializableObject::GetUUID() co
 	return m_uuid; 
 }
 
+bool StoryboardEngine::SerializableObject::DoesObjectExist(const UUID& id)
+{
+	return idToObject.contains(id);
+}
+
 void StoryboardEngine::SerializableObject::OnBeginSave()
 {
 
