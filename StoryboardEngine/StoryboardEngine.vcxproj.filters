@@ -242,6 +242,9 @@
     <ClCompile Include="Src\Utils\RayCasting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Utils\SimpleMathDefines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\colour_ps.hlsl" />

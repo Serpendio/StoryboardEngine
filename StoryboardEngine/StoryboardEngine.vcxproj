@@ -278,6 +278,7 @@
     <ClCompile Include="Src\Utils\SceneReference.cpp" />
     <ClCompile Include="Src\Core\SceneTransform.cpp" />
     <ClCompile Include="Src\Core\SerializableObject.cpp" />
+    <ClCompile Include="Src\Utils\SimpleMathDefines.cpp" />
     <ClCompile Include="Src\Utils\Time.cpp" />
     <ClCompile Include="Src\Internal\ApplicationCore.cpp" />
     <ClCompile Include="Src\Internal\ColourShader.cpp" />
