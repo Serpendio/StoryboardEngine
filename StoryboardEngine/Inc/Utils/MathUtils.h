@@ -35,5 +35,10 @@ namespace MathUtils
 	{
 		return Vector3(RadToDeg(radians.x), RadToDeg(radians.y), RadToDeg(radians.z));
 	}
+
+	inline bool Approximately(float a, float b, float epsilon = 0.0001f)
+	{
+		return fabsf(a - b) <= epsilon;
+	}
 }
 
