@@ -316,4 +316,6 @@ void StoryboardEngine::ApplicationCore::Frame()
 
 	// Present the rendered scene to the screen.
 	m_Direct3D->EndScene();
+
+	SceneManager::EndFrame();
 }

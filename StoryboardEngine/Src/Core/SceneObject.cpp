@@ -308,38 +308,45 @@ StoryboardEngine::SceneReference<StoryboardEngine::SceneComponent> StoryboardEng
 // ToDo: Do I call all of these?
 void StoryboardEngine::SceneObject::OnDestroy()
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		component->OnDestroy();
 	}
 
-	for (auto& child : children)
+	for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		child->OnDestroy();
 	}
 }
 
 void StoryboardEngine::SceneObject::OnAwake()
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		component->OnAwake();
 	}
 
-	for (auto& child : children)
+	for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		child->OnAwake();
 	}
 }
 void StoryboardEngine::SceneObject::OnAwakeEditor()
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		component->OnAwakeEditor();
 	}
 
-	for (auto& child : children)
+
+	for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		child->OnAwakeEditor();
 	}
 }
@@ -347,13 +354,16 @@ void StoryboardEngine::SceneObject::OnStart()
 {
 	// ToDo: Start should probably be delayed if the item is not enabled/active
 
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		component->OnStart();
 	}
 
-	for (auto& child : children)
+
+	for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		child->OnStart();
 	}
 }
@@ -362,15 +372,18 @@ void StoryboardEngine::SceneObject::OnUpdate()
 {
 	transform->ClearChangedThisFrame();
 
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		if (!component->IsEnabled()) continue;
 
 		component->OnUpdate();
 	}
 
-	for (auto& child : children)
+
+	for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		if (!child->isActive) continue;
 
 		child->OnUpdate();
@@ -379,15 +392,18 @@ void StoryboardEngine::SceneObject::OnUpdate()
 
 void StoryboardEngine::SceneObject::OnFixedUpdate()
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		if (!component->IsEnabled()) continue;
 
 		component->OnFixedUpdate();
 	}
 
-	for (auto& child : children)
+
+	for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		if (!child->isActive) continue;
 
 		child->OnFixedUpdate();
@@ -395,104 +411,118 @@ void StoryboardEngine::SceneObject::OnFixedUpdate()
 }
 void StoryboardEngine::SceneObject::OnCollisionEnter(SceneReference<SceneObject> other)
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		component->OnCollisionEnter(other);
 	}
 
-	/*for (auto& child : children)
+	/*for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		child->OnCollisionEnter(other);
 	}*/
 }
 void StoryboardEngine::SceneObject::OnCollisionStay(SceneReference<SceneObject> other)
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		component->OnCollisionStay(other);
 	}
 
-	/*for (auto& child : children)
+	/*for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		child->OnCollisionStay(other);
 	}*/
 }
 void StoryboardEngine::SceneObject::OnCollisionExit(SceneReference<SceneObject> other)
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		component->OnCollisionExit(other);
 	}
 
-	/*for (auto& child : children)
+	/*for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		child->OnCollisionExit(other);
 	}*/
 }
 void StoryboardEngine::SceneObject::OnTriggerEnter(SceneReference<SceneObject> other)
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		component->OnTriggerEnter(other);
 	}
 
-	/*for (auto& child : children)
+	/*for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		child->OnTriggerEnter(other);
 	}*/
 }
 void StoryboardEngine::SceneObject::OnTriggerStay(SceneReference<SceneObject> other)
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		component->OnTriggerStay(other);
 	}
 
-	/*for (auto& child : children)
+	/*for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		child->OnTriggerStay(other);
 	}*/
 }
 void StoryboardEngine::SceneObject::OnTriggerExit(SceneReference<SceneObject> other)
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
+		auto& component = components[i];
 		component->OnTriggerExit(other);
 	}
 
-	/*for (auto& child : children)
+	/*for (int i = 0; i < children.Size(); ++i)
 	{
+		auto& child = children[i];
 		child->OnTriggerExit(other);
 	}*/
 }
 
 void StoryboardEngine::SceneObject::OnDrawGizmos()
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
-		component->OnDestroy();
+		auto& component = components[i];
+		component->OnDrawGizmos();
 	}
 
-	for (auto& child : children)
+	for (int i = 0; i < children.Size(); ++i)
 	{
-		child->OnDestroy();
+		auto& child = children[i];
+		child->OnDrawGizmos();
 	}
 }
 
 void StoryboardEngine::SceneObject::OnDrawGizmosSelected()
 {
-	for (auto& component : components)
+	for (int i = 0; i < components.Size(); ++i)
 	{
-		component->OnDestroy();
+		auto& component = components[i];
+		component->OnDrawGizmosSelected();
 	}
 
-	for (auto& child : children)
+	for (int i = 0; i < children.Size(); ++i)
 	{
-		child->OnDestroy();
+		auto& child = children[i];
+		child->OnDrawGizmosSelected();
 	}
 }
-
-
 
 StoryboardEngine::SceneReference<StoryboardEngine::SceneComponent> StoryboardEngine::SceneObject::AddComponent(size_t componentHash)
 {
@@ -516,6 +546,7 @@ void StoryboardEngine::SceneObject::RemoveComponent(size_t componentHash)
 {
 	if (auto it = components.find(componentHash); it != components.end())
 	{
+		(*it)->OnDestroy();
 		SerializableObject::idToObject.erase((*it)->GetUUID());
 		components.Remove(componentHash);
 	}

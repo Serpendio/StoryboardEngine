@@ -124,6 +124,14 @@ void StoryboardEngine::SceneManager::RenderSceneGUI()
 	}
 }
 
+void StoryboardEngine::SceneManager::EndFrame()
+{
+	if (s_currentScene)
+	{
+		s_currentScene->EndFrame();
+	}
+}
+
 void StoryboardEngine::SceneManager::RegisterScene(const std::string& sceneName, const std::string& filePath)
 {
 	s_scenes[sceneName] = filePath;

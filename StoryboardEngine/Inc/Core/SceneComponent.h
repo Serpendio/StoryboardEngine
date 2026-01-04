@@ -70,6 +70,7 @@ namespace StoryboardEngine
 		SceneReference<SceneObject> GetSceneObject() const;
 		SceneReference<SceneTransform> GetTransform() const;
 		std::string GetSerializedType() const override;
+		void DestroyObject(SceneReference<SerializableObject> objToDestroy) const;
 
 		ADD_SERIALIZATION(SerializableObject, StoryboardEngine::SceneComponent,
 			JSON_VARIABLE(isEnabled), JSON_VARIABLE(parentObject))

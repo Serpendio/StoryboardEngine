@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include <set>
 #include "Core/SceneComponent.h"
 #include "Core/SceneObject.h"
 
@@ -21,6 +22,7 @@ namespace StoryboardEngine
 		virtual void Update();
 		virtual void Render(ID3D11DeviceContext* deviceContext);
 		virtual void RenderGUI();
+		virtual void EndFrame();
 	protected:
 #ifdef _EDITOR
 		friend class EditorLayer;
@@ -46,6 +48,7 @@ namespace StoryboardEngine
 		void RegisterDrawable(StoryboardEngine::SceneReference<StoryboardEngine::DrawableComponent> drawable);
 		void DeregisterDrawable(StoryboardEngine::SceneReference<StoryboardEngine::DrawableComponent> drawable);
 		void RegisterNewComponent(StoryboardEngine::SceneReference<StoryboardEngine::SceneComponent> component);
+		void MarkForDestruction(StoryboardEngine::SceneReference<StoryboardEngine::SerializableObject> object);
 
 		void SetCamera(StoryboardEngine::SceneReference<StoryboardEngine::CameraComponent> cameraObject);
 	private:
@@ -58,6 +61,7 @@ namespace StoryboardEngine
 		//StoryboardEngine::ModelRenderer* skybox;
 
 		std::vector<StoryboardEngine::SceneReference<StoryboardEngine::SceneComponent>> newComponents;
+		std::set<StoryboardEngine::SceneReference<StoryboardEngine::SerializableObject>> destroyingObjects;
 		//std::vector<StoryboardEngine::SceneReference<StoryboardEngine::SceneComponent>> updatingComponents;
 		std::vector<StoryboardEngine::SceneReference<StoryboardEngine::SerializableObject>> componentsToDelete; // ToDo: Case where destroy is called on the sceneobject and its component, causing OnDestroy to be called twice for the component
 	};

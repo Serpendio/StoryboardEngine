@@ -25,6 +25,7 @@ namespace StoryboardEngine
 		static void UpdateScene();
 		static void RenderScene(ID3D11DeviceContext* deviceContext);
 		static void RenderSceneGUI();
+		static void EndFrame();
 
 		static void RegisterScene(const std::string& sceneName, const std::string& filePath);
 		static void LoadInitialScene(std::string initialSceneName);

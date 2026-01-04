@@ -29,7 +29,6 @@ namespace StoryboardEngine
 		SceneReference<SceneObject> AddChild();
 		SceneReference<SceneObject> GetChild(size_t index) const;
 		size_t GetChildCount() const;
-		void DestroyChild(UUID childID);
 		SceneReference<SceneTransform> GetTransform() const;
 		SceneReference<SceneObject> GetParent() const;
 		void SetParent(SceneReference<SceneObject> newParent);
@@ -92,32 +91,13 @@ namespace StoryboardEngine
 				return SceneReference<T>(*it);
 			}
 
-			std::shared_ptr<T> comp = ComponentRegistry::ConstructComponent<T>(SceneReference<SerializableObject>(shared_from_this()));
+			std::shared_ptr<T> comp = ComponentRegistry::ConstructComponent<T>();
+			comp->Initialize(SceneReference<SerializableObject>(shared_from_this()));
 			LinkComponent(comp, compHash);
-			return components.Get(compHash);
+			return comp;
 		}
 
 		SceneReference<SceneComponent> AddComponent(size_t componentHash);
-
-		// If a component of type T exists on the object, it is removed
-		template<typename T>
-		void RemoveComponent()
-		{
-			static_assert(std::is_base_of<SceneComponent, T>::value, "Must be called with base type SceneComponent");
-			static_assert(!std::is_same<StoryboardEngine::SceneTransform, T>::value, "Cannot remove transform component from object");
-			static_assert(!std::is_abstract<T>::value, "Trying to remove an abstract component");
-
-			auto compHash = ComponentRegistry::GetTypeHash<T>();
-			// ToDo: Implement OnDestroy and delayed destruction
-			if (auto it = components.find(compHash); it != components.end())
-			{
-				// Remove from both the components list and the global ID map
-				SerializableObject::idToObject.erase((*it)->GetUUID());
-				components.Remove(compHash);
-			}
-		}
-
-		void RemoveComponent(size_t componentHash);
 
 		// Gets a component of type T from the object. If includeChildren is true, will also search children recursively. Returns an empty reference if not found
 		template<class T>
@@ -193,6 +173,28 @@ namespace StoryboardEngine
 		void DrawInspector(bool debug = false);
 		// Initializes the scene object with its parent and attached scene, also links the transform reference
 		void Initialize(SceneReference<SceneObject> parent, Scene* scene);
+
+		// If a component of type T exists on the object, it is removed
+		template<typename T>
+		void RemoveComponent()
+		{
+			static_assert(std::is_base_of<SceneComponent, T>::value, "Must be called with base type SceneComponent");
+			static_assert(!std::is_same<StoryboardEngine::SceneTransform, T>::value, "Cannot remove transform component from object");
+			static_assert(!std::is_abstract<T>::value, "Trying to remove an abstract component");
+
+			auto compHash = ComponentRegistry::GetTypeHash<T>();
+			// ToDo: Implement OnDestroy and delayed destruction
+			if (auto it = components.find(compHash); it != components.end())
+			{
+				// Remove from both the components list and the global ID map
+				SerializableObject::idToObject.erase((*it)->GetUUID());
+				components.Remove(compHash);
+			}
+		}
+
+		void RemoveComponent(size_t componentHash);
+
+		void DestroyChild(UUID childID);
 
 		friend class Scene;
 		friend class EditorLayer;

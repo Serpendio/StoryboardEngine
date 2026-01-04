@@ -106,3 +106,8 @@ std::string StoryboardEngine::SceneComponent::GetSerializedType() const
 {
 	return ComponentRegistry::GetComponentName(componentHash);
 }
+
+void StoryboardEngine::SceneComponent::DestroyObject(SceneReference<SerializableObject> objToDestroy) const
+{
+	GetSceneObject()->GetScene()->MarkForDestruction(objToDestroy);
+}

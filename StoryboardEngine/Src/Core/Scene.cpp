@@ -273,7 +273,7 @@ void StoryboardEngine::Scene::Update()
 	{
 		// ToDo: Should delay start call if component is not enabled
 		// ToDo: Is root start called twice on first frame (and does it matter if so?)
-		component->OnStart();
+		if (component) component->OnStart();
 	}
 	newComponents.clear();
 
@@ -291,7 +291,9 @@ void StoryboardEngine::Scene::Render(ID3D11DeviceContext* deviceContext)
 {
 	if (!sceneCamera)
 	{
-		Logger::LogWarning("No camera in scene");
+		// Should be warning, but we don't want warnings happening every frame
+		// ToDo: Once warnings don't auto break, make this a warning again
+		Logger::LogInfo("No camera in scene");
 		return;
 	}
 
@@ -318,6 +320,25 @@ void StoryboardEngine::Scene::RenderGUI()
 	}
 }
 
+void StoryboardEngine::Scene::EndFrame()
+{
+	for (auto& obj : destroyingObjects)
+	{
+		obj->OnDestroy();
+
+		if (auto sceneObj = obj.TryAs<SceneObject>())
+		{
+			sceneObj->GetParent()->DestroyChild(sceneObj->GetUUID());
+		}
+		else if (auto sceneComponent = obj.TryAs<SceneComponent>())
+		{
+			sceneComponent->GetSceneObject()->RemoveComponent(sceneComponent->GetComponentHash());
+		}
+	}
+
+	destroyingObjects.clear();
+}
+
 void StoryboardEngine::Scene::RegisterDrawable(SceneReference<StoryboardEngine::DrawableComponent> drawable)
 {
 	drawables.Add(drawable->GetUUID(), drawable);
@@ -326,6 +347,14 @@ void StoryboardEngine::Scene::RegisterDrawable(SceneReference<StoryboardEngine::
 // ToDo: Consider different data structure (hashed vector) for better performance
 void StoryboardEngine::Scene::DeregisterDrawable(SceneReference<StoryboardEngine::DrawableComponent> drawable)
 {
+	// ToDo: OnDestroy might be called multiple times
+
+	if (!drawables.Contains(drawable->GetUUID()))
+	{
+		Logger::LogInfo("Attempted to deregister drawable that wasn't registered");
+		return;
+	}
+
 	drawables.RemoveFast(drawable->GetUUID());
 }
 
@@ -371,6 +400,11 @@ void StoryboardEngine::Scene::SetupRootObject()
 void StoryboardEngine::Scene::RegisterNewComponent(StoryboardEngine::SceneReference<StoryboardEngine::SceneComponent> component)
 {
 	newComponents.push_back(component);
+}
+
+void StoryboardEngine::Scene::MarkForDestruction(StoryboardEngine::SceneReference<StoryboardEngine::SerializableObject> object)
+{
+	destroyingObjects.insert(object);
 }
 
 StoryboardEngine::SceneReference<StoryboardEngine::SceneObject> StoryboardEngine::Scene::GetRoot() const
