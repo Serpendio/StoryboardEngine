@@ -157,8 +157,12 @@ void StoryboardEngine::EditorLayer::RenderGUI()
 #ifdef _EDITOR
 			SaveScene();
 
+			renderScenePOV = true;
 			ApplicationUtils::isPlaying = true;
 			SceneManager::LoadSceneEditor(editingSceneName);
+
+			ImGui::End();
+			return;
 #endif
 		}
 	}
@@ -167,8 +171,12 @@ void StoryboardEngine::EditorLayer::RenderGUI()
 		if (ImGui::Button("Exit play mode"))
 		{
 #ifdef _EDITOR
+			renderScenePOV = false;
 			ApplicationUtils::isPlaying = false;
 			SceneManager::LoadSceneEditor(editingSceneName);
+
+			ImGui::End();
+			return;
 #endif
 		}
 	}
