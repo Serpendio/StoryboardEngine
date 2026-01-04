@@ -1,0 +1,221 @@
+{
+    "Version": 1,
+    "Root": "2435f5a0-a3c9-45d1-8550-ff1894a2f17b",
+    "SerializableObjects": [
+        {
+            "serialized_type": "SceneObject",
+            "data": {
+                "m_uuid": "2435f5a0-a3c9-45d1-8550-ff1894a2f17b",
+                "name": "Scene Root",
+                "isActive": true,
+                "parent": null,
+                "children": [
+                    [
+                        "122519ef-a91f-4f52-980e-e45675a19f72",
+                        "122519ef-a91f-4f52-980e-e45675a19f72"
+                    ],
+                    [
+                        "2e455cf6-58df-4aef-879b-402694544464",
+                        "2e455cf6-58df-4aef-879b-402694544464"
+                    ],
+                    [
+                        "392fd9f1-61a4-42c9-a4b6-d616c35b2b41",
+                        "392fd9f1-61a4-42c9-a4b6-d616c35b2b41"
+                    ]
+                ],
+                "components": [
+                    [
+                        11516377714797745861,
+                        "3e76dda1-2f56-4ad9-825b-2184a5718033"
+                    ]
+                ]
+            }
+        },
+        {
+            "serialized_type": "SceneTransform",
+            "data": {
+                "m_uuid": "3e76dda1-2f56-4ad9-825b-2184a5718033",
+                "isEnabled": true,
+                "parentObject": "2435f5a0-a3c9-45d1-8550-ff1894a2f17b",
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "ModelRenderer",
+            "data": {
+                "m_uuid": "fe1ccb02-5f60-4a3f-8e01-3190abb51e47",
+                "isEnabled": true,
+                "parentObject": "122519ef-a91f-4f52-980e-e45675a19f72",
+                "renderPriority": 0,
+                "modelResourceID": 0,
+                "textureResourceID": 0,
+                "colourTint": {
+                    "x": 0.053344834595918655,
+                    "y": 0.7254902124404907,
+                    "z": 0.3696485161781311,
+                    "w": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "SceneObject",
+            "data": {
+                "m_uuid": "122519ef-a91f-4f52-980e-e45675a19f72",
+                "name": "Back",
+                "isActive": true,
+                "parent": "2435f5a0-a3c9-45d1-8550-ff1894a2f17b",
+                "children": [],
+                "components": [
+                    [
+                        11516377714797745861,
+                        "1a57c2c7-e2b5-4f9c-83a4-ecb725e0afea"
+                    ],
+                    [
+                        11854540297005039897,
+                        "fe1ccb02-5f60-4a3f-8e01-3190abb51e47"
+                    ]
+                ]
+            }
+        },
+        {
+            "serialized_type": "SceneTransform",
+            "data": {
+                "m_uuid": "d5cd3d53-0321-4298-9c62-d5e8e06521f8",
+                "isEnabled": true,
+                "parentObject": "392fd9f1-61a4-42c9-a4b6-d616c35b2b41",
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.149999976158142
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "SceneTransform",
+            "data": {
+                "m_uuid": "1a57c2c7-e2b5-4f9c-83a4-ecb725e0afea",
+                "isEnabled": true,
+                "parentObject": "122519ef-a91f-4f52-980e-e45675a19f72",
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 15.640000343322754,
+                    "y": 10.020000457763672,
+                    "z": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "SceneObject",
+            "data": {
+                "m_uuid": "2e455cf6-58df-4aef-879b-402694544464",
+                "name": "Menu",
+                "isActive": true,
+                "parent": "2435f5a0-a3c9-45d1-8550-ff1894a2f17b",
+                "children": [],
+                "components": [
+                    [
+                        11516377714797745861,
+                        "01482ac4-096f-41f0-968a-029ba7be0a1d"
+                    ],
+                    [
+                        13505580580786621103,
+                        "78ad4c94-f4ee-4973-bb01-41c7b2588c9e"
+                    ]
+                ]
+            }
+        },
+        {
+            "serialized_type": "MainMenu",
+            "data": {
+                "m_uuid": "78ad4c94-f4ee-4973-bb01-41c7b2588c9e",
+                "isEnabled": true,
+                "parentObject": "2e455cf6-58df-4aef-879b-402694544464",
+                "renderPriority": 100
+            }
+        },
+        {
+            "serialized_type": "SceneTransform",
+            "data": {
+                "m_uuid": "01482ac4-096f-41f0-968a-029ba7be0a1d",
+                "isEnabled": true,
+                "parentObject": "2e455cf6-58df-4aef-879b-402694544464",
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "SceneObject",
+            "data": {
+                "m_uuid": "392fd9f1-61a4-42c9-a4b6-d616c35b2b41",
+                "name": "Camera",
+                "isActive": true,
+                "parent": "2435f5a0-a3c9-45d1-8550-ff1894a2f17b",
+                "children": [],
+                "components": [
+                    [
+                        11516377714797745861,
+                        "d5cd3d53-0321-4298-9c62-d5e8e06521f8"
+                    ],
+                    [
+                        13209209574413295037,
+                        "92ddd065-dc25-4922-89fd-2133e64d9f4e"
+                    ]
+                ]
+            }
+        },
+        {
+            "serialized_type": "CameraComponent",
+            "data": {
+                "m_uuid": "92ddd065-dc25-4922-89fd-2133e64d9f4e",
+                "isEnabled": true,
+                "parentObject": "392fd9f1-61a4-42c9-a4b6-d616c35b2b41"
+            }
+        }
+    ]
+}

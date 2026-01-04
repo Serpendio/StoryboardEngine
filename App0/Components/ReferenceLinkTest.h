@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/DrawableComponent.h"
+#include "Core/SceneComponent.h"
 class ReferenceLinkTest : public StoryboardEngine::SceneComponent
 {
 	StoryboardEngine::SceneReference<StoryboardEngine::SceneObject> referencedObject;

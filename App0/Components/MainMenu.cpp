@@ -9,15 +9,12 @@ void MainMenu::OnConstructed()
 	this->SetRenderPriority(100);
 }
 
+// ToDo: These todos should be on main
 // ToDo: Nicer UI API
 // ToDo: Buttons shouldn't be able to work in edit mode
+// ToDo: Can accidentally rename a second object when selecting that while renaming the first
 void MainMenu::OnDraw(ID3D11DeviceContext* deviceContext)
 {
-	//int swidth, sheight;
-	//StoryboardEngine::ApplicationUtils::GetScreenSize(swidth, sheight);
-
-	//ImGui::SetNextWindowBgAlpha(0);
-	//ImGui::Begin("Menu", NULL, ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar);
 	ImGui::Begin("Menu");
 
 	if (ImGui::Button("Load Game"))

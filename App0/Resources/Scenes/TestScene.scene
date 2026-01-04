@@ -1,0 +1,396 @@
+{
+    "Version": 1,
+    "Root": "c6cb6f69-5c61-43b4-be51-daec0f4e19ae",
+    "SerializableObjects": [
+        {
+            "serialized_type": "SceneObject",
+            "data": {
+                "m_uuid": "c6cb6f69-5c61-43b4-be51-daec0f4e19ae",
+                "name": "Scene Root",
+                "isActive": true,
+                "parent": null,
+                "children": [
+                    [
+                        "42a0951c-60af-4914-891b-065a05f99624",
+                        "42a0951c-60af-4914-891b-065a05f99624"
+                    ],
+                    [
+                        "601618a4-8554-45db-ae82-6e9830e9c8e6",
+                        "601618a4-8554-45db-ae82-6e9830e9c8e6"
+                    ],
+                    [
+                        "6104285c-5a85-41c2-ae09-059567a707b7",
+                        "6104285c-5a85-41c2-ae09-059567a707b7"
+                    ],
+                    [
+                        "7bf313d1-ecea-423c-8f08-61dbbead825a",
+                        "7bf313d1-ecea-423c-8f08-61dbbead825a"
+                    ]
+                ],
+                "components": [
+                    [
+                        11516377714797745861,
+                        "9acf5965-c710-440f-8b61-fbd771e0745d"
+                    ]
+                ]
+            }
+        },
+        {
+            "serialized_type": "SceneTransform",
+            "data": {
+                "m_uuid": "9acf5965-c710-440f-8b61-fbd771e0745d",
+                "isEnabled": true,
+                "parentObject": "c6cb6f69-5c61-43b4-be51-daec0f4e19ae",
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "SceneObject",
+            "data": {
+                "m_uuid": "42a0951c-60af-4914-891b-065a05f99624",
+                "name": "Floor",
+                "isActive": true,
+                "parent": "c6cb6f69-5c61-43b4-be51-daec0f4e19ae",
+                "children": [],
+                "components": [
+                    [
+                        11516377714797745861,
+                        "8ff1314e-3ffe-4f10-a96d-95180d35b2be"
+                    ],
+                    [
+                        12067142115517542600,
+                        "94d7bfdf-1d12-4720-98bc-8968ebfd0912"
+                    ],
+                    [
+                        11854540297005039897,
+                        "f2e89107-b29b-4db6-8ce7-f60ad6570b18"
+                    ]
+                ]
+            }
+        },
+        {
+            "serialized_type": "ModelRenderer",
+            "data": {
+                "m_uuid": "f2e89107-b29b-4db6-8ce7-f60ad6570b18",
+                "isEnabled": true,
+                "parentObject": "42a0951c-60af-4914-891b-065a05f99624",
+                "renderPriority": 0,
+                "modelResourceID": 0,
+                "textureResourceID": 0,
+                "colourTint": {
+                    "x": 0.5882352590560913,
+                    "y": 0.2998846173286438,
+                    "z": 0.2998846173286438,
+                    "w": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "SceneTransform",
+            "data": {
+                "m_uuid": "8ff1314e-3ffe-4f10-a96d-95180d35b2be",
+                "isEnabled": true,
+                "parentObject": "42a0951c-60af-4914-891b-065a05f99624",
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 14.6899995803833,
+                    "y": 1.0,
+                    "z": 14.3100004196167
+                }
+            }
+        },
+        {
+            "serialized_type": "RigidBody",
+            "data": {
+                "m_uuid": "94d7bfdf-1d12-4720-98bc-8968ebfd0912",
+                "isEnabled": true,
+                "parentObject": "42a0951c-60af-4914-891b-065a05f99624",
+                "gravityFactor": 1.0,
+                "motionType": 0
+            }
+        },
+        {
+            "serialized_type": "SceneObject",
+            "data": {
+                "m_uuid": "601618a4-8554-45db-ae82-6e9830e9c8e6",
+                "name": "PhysObj",
+                "isActive": true,
+                "parent": "c6cb6f69-5c61-43b4-be51-daec0f4e19ae",
+                "children": [
+                    [
+                        "82009465-4338-4aad-bd4c-43e3f1d40d6d",
+                        "82009465-4338-4aad-bd4c-43e3f1d40d6d"
+                    ]
+                ],
+                "components": [
+                    [
+                        11516377714797745861,
+                        "1cf57ec1-398f-458d-9283-a9fc568b2ebb"
+                    ],
+                    [
+                        12067142115517542600,
+                        "8ccf56c4-7eae-41c1-a423-d5d113fb6b79"
+                    ],
+                    [
+                        11854540297005039897,
+                        "e378dd74-d6f8-46b9-9942-5ec80fc290d8"
+                    ]
+                ]
+            }
+        },
+        {
+            "serialized_type": "SceneTransform",
+            "data": {
+                "m_uuid": "1cf57ec1-398f-458d-9283-a9fc568b2ebb",
+                "isEnabled": true,
+                "parentObject": "601618a4-8554-45db-ae82-6e9830e9c8e6",
+                "position": {
+                    "x": 0.0,
+                    "y": 2.0799999237060547,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "RigidBody",
+            "data": {
+                "m_uuid": "8ccf56c4-7eae-41c1-a423-d5d113fb6b79",
+                "isEnabled": true,
+                "parentObject": "601618a4-8554-45db-ae82-6e9830e9c8e6",
+                "gravityFactor": 1.0,
+                "motionType": 2
+            }
+        },
+        {
+            "serialized_type": "SceneTransform",
+            "data": {
+                "m_uuid": "e5966d36-151e-4897-b811-0c1dfcd01f36",
+                "isEnabled": true,
+                "parentObject": "6104285c-5a85-41c2-ae09-059567a707b7",
+                "position": {
+                    "x": 0.0,
+                    "y": 2.2300000190734863,
+                    "z": -4.849999904632568
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "ModelRenderer",
+            "data": {
+                "m_uuid": "e378dd74-d6f8-46b9-9942-5ec80fc290d8",
+                "isEnabled": true,
+                "parentObject": "601618a4-8554-45db-ae82-6e9830e9c8e6",
+                "renderPriority": 0,
+                "modelResourceID": 1,
+                "textureResourceID": 0,
+                "colourTint": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "SceneObject",
+            "data": {
+                "m_uuid": "6104285c-5a85-41c2-ae09-059567a707b7",
+                "name": "Camera",
+                "isActive": true,
+                "parent": "c6cb6f69-5c61-43b4-be51-daec0f4e19ae",
+                "children": [],
+                "components": [
+                    [
+                        11516377714797745861,
+                        "e5966d36-151e-4897-b811-0c1dfcd01f36"
+                    ],
+                    [
+                        13209209574413295037,
+                        "e9499469-3377-4080-9aa7-e766af62f88d"
+                    ],
+                    [
+                        11854540297005039897,
+                        "07eb455a-f7a4-45fa-947c-e40d025ec834"
+                    ]
+                ]
+            }
+        },
+        {
+            "serialized_type": "CameraComponent",
+            "data": {
+                "m_uuid": "e9499469-3377-4080-9aa7-e766af62f88d",
+                "isEnabled": true,
+                "parentObject": "6104285c-5a85-41c2-ae09-059567a707b7"
+            }
+        },
+        {
+            "serialized_type": "ModelRenderer",
+            "data": {
+                "m_uuid": "07eb455a-f7a4-45fa-947c-e40d025ec834",
+                "isEnabled": true,
+                "parentObject": "6104285c-5a85-41c2-ae09-059567a707b7",
+                "renderPriority": 0,
+                "modelResourceID": 0,
+                "textureResourceID": 0,
+                "colourTint": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "SceneObject",
+            "data": {
+                "m_uuid": "7bf313d1-ecea-423c-8f08-61dbbead825a",
+                "name": "RefLinkTest",
+                "isActive": true,
+                "parent": "c6cb6f69-5c61-43b4-be51-daec0f4e19ae",
+                "children": [],
+                "components": [
+                    [
+                        11516377714797745861,
+                        "bb70d269-f5cc-4e70-8b12-b602fb3d0db0"
+                    ],
+                    [
+                        5654582123535744242,
+                        "10f7d7a9-03eb-4fe9-a7fd-4285d1e39766"
+                    ]
+                ]
+            }
+        },
+        {
+            "serialized_type": "SceneTransform",
+            "data": {
+                "m_uuid": "bb70d269-f5cc-4e70-8b12-b602fb3d0db0",
+                "isEnabled": true,
+                "parentObject": "7bf313d1-ecea-423c-8f08-61dbbead825a",
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "SceneObject",
+            "data": {
+                "m_uuid": "82009465-4338-4aad-bd4c-43e3f1d40d6d",
+                "name": "Controller",
+                "isActive": true,
+                "parent": "601618a4-8554-45db-ae82-6e9830e9c8e6",
+                "children": [],
+                "components": [
+                    [
+                        11516377714797745861,
+                        "59ea8af7-0dc4-407e-9db0-c750558fdd5c"
+                    ],
+                    [
+                        1148112891929636404,
+                        "447c85bf-95f9-4e28-b765-5a12bf0e52b6"
+                    ]
+                ]
+            }
+        },
+        {
+            "serialized_type": "ReferenceLinkTest",
+            "data": {
+                "m_uuid": "10f7d7a9-03eb-4fe9-a7fd-4285d1e39766",
+                "isEnabled": true,
+                "parentObject": "7bf313d1-ecea-423c-8f08-61dbbead825a",
+                "referencedObject": null,
+                "referencedComponent": null,
+                "referencedTransform": null
+            }
+        },
+        {
+            "serialized_type": "SceneTransform",
+            "data": {
+                "m_uuid": "59ea8af7-0dc4-407e-9db0-c750558fdd5c",
+                "isEnabled": true,
+                "parentObject": "82009465-4338-4aad-bd4c-43e3f1d40d6d",
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        {
+            "serialized_type": "FirstPersonController",
+            "data": {
+                "m_uuid": "447c85bf-95f9-4e28-b765-5a12bf0e52b6",
+                "isEnabled": true,
+                "parentObject": "82009465-4338-4aad-bd4c-43e3f1d40d6d",
+                "lookSensitivity": 45.0,
+                "moveSpeed": 10.0,
+                "jumpSpeed": 5.0,
+                "gun": null
+            }
+        }
+    ]
+}
