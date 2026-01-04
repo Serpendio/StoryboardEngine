@@ -9,6 +9,7 @@ namespace StoryboardEngine
 		JPH::BodyID bodyID;
 		JPH::EMotionType motionType = JPH::EMotionType::Dynamic;
 
+	public:
 		// ToDo: It'd be nice not to have to store the gravity all the time just for serialization, we don't need the variable at runtime
 		// Maybe we can have a custom serialization that accepts functions
 		float gravityFactor = 1.0f;

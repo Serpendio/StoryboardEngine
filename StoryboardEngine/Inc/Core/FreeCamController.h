@@ -5,7 +5,7 @@ namespace StoryboardEngine
 {
 	class FreeCamController : public SceneComponent
 	{
-	private:
+	public:
 		float m_moveSpeed = 10.f;
 		float m_rotateSpeed = 45.f;
 
