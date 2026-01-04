@@ -17,11 +17,11 @@ void StoryboardEngine::RegisterApplicationScenes(std::unordered_map<std::string,
 [[nodiscard]] void StoryboardEngine::RegisterApplicationModels(std::unordered_map<std::string, std::string>& modelNameToPathMap)
 {
 	// Example:
-	// modelNameToPathMap["SampleModel"] = "Assets/Models/SampleModel.obj";
+	//modelNameToPathMap["SampleModel"] = "Resources/Models/SampleModel.obj";
 }
 
 void StoryboardEngine::RegisterApplicationTextures(std::unordered_map<std::string, std::string>& textureNameToPathMap)
 {
 	// Example:
-	// textureNameToPathMap["SampleTexture"] = "Assets/Textures/SampleTexture.png";
+	// textureNameToPathMap["SampleTexture"] = "Resources/Textures/SampleTexture.png";
 }
