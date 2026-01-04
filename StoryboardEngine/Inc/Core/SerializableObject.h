@@ -42,6 +42,8 @@ namespace StoryboardEngine
 
 		auto operator<=>(const SerializableObject& other) const = default;
 
+		static bool DoesObjectExist(const UUID& id);
+
 		ADD_SERIALIZATION_NO_PARENT(SerializableObject, JSON_VARIABLE(m_uuid))
 	private:
 
