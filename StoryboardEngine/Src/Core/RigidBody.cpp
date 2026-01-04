@@ -131,6 +131,28 @@ Vector3 StoryboardEngine::RigidBody::GetAngularVelocity() const
 	return Vector3(angVel.GetX(), angVel.GetY(), angVel.GetZ());
 }
 
+void StoryboardEngine::RigidBody::ApplyForce(const Vector3& force) const
+{
+	if (!IsActive())
+	{
+		return;
+	}
+
+	JPH::BodyInterface& bodyInterface = StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface();
+	bodyInterface.AddForce(bodyID, JPH::Vec3(force.x, force.y, force.z));
+}
+
+void StoryboardEngine::RigidBody::ApplyImpulse(const Vector3& impulse) const
+{
+	if (!IsActive())
+	{
+		return;
+	}
+
+	JPH::BodyInterface& bodyInterface = StoryboardEngine::Physics3D::GetPhysicsSystem().GetBodyInterface();
+	bodyInterface.AddImpulse(bodyID, JPH::Vec3(impulse.x, impulse.y, impulse.z));
+}
+
 void StoryboardEngine::RigidBody::SetMotionType(JPH::EMotionType type)
 {
 	motionType = type;
@@ -147,8 +169,11 @@ void StoryboardEngine::RigidBody::CreatePhysicsBody()
 
 	JPH::ObjectLayer layer = motionType == JPH::EMotionType::Static ? Physics3D::PhysicsLayers::STATIC : Physics3D::PhysicsLayers::DYNAMIC;
 
+	// ToDo: Seems like jolt doesn't like scale being too small (e.g. ~1/20 even seems to cause an assert)
+	// Just clamping for now
+
 	JPH::BodyCreationSettings bodySettings(
-		new JPH::BoxShape(JPH::RVec3(scale.x, scale.y, scale.z)),
+		new JPH::BoxShape(JPH::RVec3(std::max(scale.x, 0.1f), std::max(scale.y, 0.1f), std::max(scale.z, 0.1f))),
 		JPH::RVec3(position.x, position.y, position.z),
 		JPH::Quat(rotationQuat.x, rotationQuat.y, rotationQuat.z, rotationQuat.w),
 		motionType,

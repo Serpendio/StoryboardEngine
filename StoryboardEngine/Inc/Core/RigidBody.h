@@ -26,6 +26,8 @@ namespace StoryboardEngine
 		Vector3 GetVelocity() const;
 		void SetAngularVelocity(const Vector3& angularVelocity) const;
 		Vector3 GetAngularVelocity() const;
+		void ApplyForce(const Vector3& force) const;
+		void ApplyImpulse(const Vector3& impulse) const;
 
 		void SetMotionType(JPH::EMotionType type);
 
