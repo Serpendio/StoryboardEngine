@@ -13,8 +13,11 @@ namespace StoryboardEngine
 
 		Matrix GetMatrix() const;
 		Vector3 GetUp() const;
+		Vector3 GetGlobalUp() const;
 		Vector3 GetForward() const;
+		Vector3 GetGlobalForward() const;
 		Vector3 GetRight() const;
+		Vector3 GetGlobalRight() const;
 		Vector3 GetLocalRotation() const;
 		Vector3 GetGlobalRotation() const;
 		Vector3 GetLocalPosition() const;

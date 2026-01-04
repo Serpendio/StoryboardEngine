@@ -31,6 +31,18 @@ void StoryboardEngine::SceneTransform::OnDrawDebugInspector()
 	ImGui::InputFloat3("Up", &upVec.x);
 	ImGui::InputFloat3("Forward", &forwardVec.x);
 	ImGui::InputFloat3("Right", &rightVec.x);
+	Vector3 globalUp = GetGlobalUp();
+	ImGui::InputFloat3("Global Up", &globalUp.x);
+	Vector3 globalForward = GetGlobalForward();
+	ImGui::InputFloat3("Global Forward", &globalForward.x);
+	Vector3 globalRight = GetGlobalRight();
+	ImGui::InputFloat3("Global Right", &globalRight.x);
+	Vector3 globalPos = GetGlobalPosition();
+	ImGui::InputFloat3("Global Position", &globalPos.x);
+	Vector3 globalRot = GetGlobalRotation();
+	ImGui::InputFloat3("Global Rotation", &globalRot.x);
+	Vector3 globalScale = GetGlobalScale();
+	ImGui::InputFloat3("Global Scale", &globalScale.x);
 	ImGui::EndDisabled();
 }
 
@@ -41,9 +53,7 @@ Matrix StoryboardEngine::SceneTransform::GetMatrix() const
 
 	DirectX::XMMATRIX matrix = 1
 		* Matrix::CreateScale(scale.x, scale.y, scale.z)
-		* Matrix::CreateRotationX(DirectX::XMConvertToRadians(rotation.x))
-		* Matrix::CreateRotationY(DirectX::XMConvertToRadians(rotation.y))
-		* Matrix::CreateRotationZ(DirectX::XMConvertToRadians(rotation.z))
+		* Matrix::CreateFromYawPitchRoll(DirectX::XMConvertToRadians(rotation.y), DirectX::XMConvertToRadians(rotation.x), DirectX::XMConvertToRadians(rotation.z))
 		* Matrix::CreateTranslation(position.x, position.y, position.z)
 		;
 
@@ -55,14 +65,35 @@ Vector3 StoryboardEngine::SceneTransform::GetUp() const
 	return upVec;
 }
 
+Vector3 StoryboardEngine::SceneTransform::GetGlobalUp() const
+{
+	Vector3 rotationVector = MathUtils::DegToRad(GetTransform()->GetGlobalRotation());
+	Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(rotationVector.y, rotationVector.x, rotationVector.z);
+	return Vector3::TransformNormal(Vector3::Up, rotationMatrix);
+}
+
 Vector3 StoryboardEngine::SceneTransform::GetForward() const
 {
 	return forwardVec;
 }
 
+Vector3 StoryboardEngine::SceneTransform::GetGlobalForward() const
+{
+	Vector3 rotationVector = MathUtils::DegToRad(GetTransform()->GetGlobalRotation());
+	Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(rotationVector.y, rotationVector.x, rotationVector.z);
+	return Vector3::TransformNormal(Vector3::Forward, rotationMatrix);
+}
+
 Vector3 StoryboardEngine::SceneTransform::GetRight() const
 {
 	return rightVec;
+}
+
+Vector3 StoryboardEngine::SceneTransform::GetGlobalRight() const
+{
+	Vector3 rotationVector = MathUtils::DegToRad(GetTransform()->GetGlobalRotation());
+	Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(rotationVector.y, rotationVector.x, rotationVector.z);
+	return Vector3::TransformNormal(Vector3::Right, rotationMatrix);
 }
 
 Vector3 StoryboardEngine::SceneTransform::GetLocalRotation() const
@@ -104,7 +135,8 @@ void StoryboardEngine::SceneTransform::SetRotation(const Vector3& rotation)
 		return;
 
 	changedThisFrame = true;
-	this->rotation = Vector3(std::fmod(rotation.x, 360.f), std::fmod(rotation.y, 360.f), std::fmod(rotation.z, 360.f));
+	// ToDo: This doesn't consider negatives, allowing -360 to 360
+	this->rotation = Vector3(std::fmodf(rotation.x, 360.f), std::fmodf(rotation.y, 360.f), std::fmodf(rotation.z, 360.f));
 
 	// Default direction vectors
 	upVec = Vector3(0.0f, 1.0f, 0.0f);
@@ -231,23 +263,33 @@ Vector3 StoryboardEngine::SceneTransform::LocalToGlobalRotation(const Vector3& l
 			MathUtils::DegToRad(parentTransform->rotation.x),
 			MathUtils::DegToRad(parentTransform->rotation.z)
 		);
-		globalRotation = parentRotation * globalRotation;
+		globalRotation = globalRotation * parentRotation;
 		parent = parent->GetParent();
 	}
-	return globalRotation.ToEuler();
+	return MathUtils::RadToDeg(globalRotation.ToEuler());
 }
 
 Vector3 StoryboardEngine::SceneTransform::LocalToGlobalScale(const Vector3& localScale) const
 {
+	// ToDo: It might be that creating the full matrix and decomposing it will solve some extra problems that might arise (maybe for position also)
+
 	// Gets the global scale, accounting for parent scale
 	Vector3 globalScale = localScale;
 	SceneReference<SceneObject> parent = GetSceneObject()->GetParent();
 	while (parent)
 	{
 		SceneReference<SceneTransform> parentTransform = parent->GetTransform();
+		// Scale the scale by the parent's scale
 		globalScale.x *= parentTransform->scale.x;
 		globalScale.y *= parentTransform->scale.y;
 		globalScale.z *= parentTransform->scale.z;
+		// Rotate the scale by the parent's rotation
+		Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(
+			MathUtils::DegToRad(parentTransform->rotation.y),
+			MathUtils::DegToRad(parentTransform->rotation.x),
+			MathUtils::DegToRad(parentTransform->rotation.z)
+		);
+		globalScale = Vector3::TransformNormal(globalScale, rotationMatrix);
 		parent = parent->GetParent();
 	}
 	return globalScale;
@@ -285,7 +327,8 @@ void StoryboardEngine::SceneTransform::SyncPhysicsBodyToJolt()
 
 		Vector3 globalScale = GetGlobalScale() / 2;
 		auto shape = physicsSystem.GetBodyInterface().GetShape(bodyID);
-		shape->ScaleShape(JPH::Vec3(globalScale.x, globalScale.y, globalScale.z));
+		// ToDo: The name of this function implies it multiplies the scale rather than sets it, investigate
+		shape->ScaleShape(JPH::Vec3(std::max(globalScale.x, 0.1f), std::max(globalScale.y, 0.1f), std::max(globalScale.z, 0.1f)));
 	}
 
 	size_t childCount = GetSceneObject()->GetChildCount();

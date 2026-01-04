@@ -26,7 +26,7 @@ std::string StoryboardEngine::SceneObject::GetSerializedType() const
 // ToDo: This should be cached for performance
 Matrix StoryboardEngine::SceneObject::GetTransformMatrix()
 {
-	return parent ? parent->GetTransformMatrix() * transform->GetMatrix() : transform->GetMatrix();
+	return parent ? transform->GetMatrix() * parent->GetTransformMatrix() : transform->GetMatrix();
 }
 
 void StoryboardEngine::SceneObject::DrawInspector(bool debug)
