@@ -210,23 +210,6 @@
             }
         },
         {
-            "serialized_type": "ModelRenderer",
-            "data": {
-                "m_uuid": "1349e546-ec4d-4348-a6ac-3865f1b2427d",
-                "isEnabled": false,
-                "parentObject": "145d59c5-88e8-4d67-907f-de0c71e0e398",
-                "renderPriority": 0,
-                "modelResourceID": 0,
-                "textureResourceID": 0,
-                "colourTint": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                }
-            }
-        },
-        {
             "serialized_type": "SceneObject",
             "data": {
                 "m_uuid": "e53ee3e4-7c44-443d-95db-bc4032d44f08",
@@ -248,6 +231,23 @@
                         "8d1c7398-d923-4939-a5f5-006a834aae30"
                     ]
                 ]
+            }
+        },
+        {
+            "serialized_type": "ModelRenderer",
+            "data": {
+                "m_uuid": "1349e546-ec4d-4348-a6ac-3865f1b2427d",
+                "isEnabled": false,
+                "parentObject": "145d59c5-88e8-4d67-907f-de0c71e0e398",
+                "renderPriority": 0,
+                "modelResourceID": 0,
+                "textureResourceID": 0,
+                "colourTint": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                }
             }
         },
         {
@@ -393,8 +393,8 @@
                 "isEnabled": true,
                 "parentObject": "fd710da6-b5ab-4424-aed6-380667631725",
                 "lookSensitivity": 45.0,
-                "moveSpeed": 10.0,
-                "jumpSpeed": 5.0,
+                "moveSpeed": 1000.0,
+                "jumpSpeed": 5000.0,
                 "gun": "c8ffb3d8-ac5b-4c46-aa8d-4dafd292b41c"
             }
         },
@@ -543,8 +543,8 @@
                 "m_uuid": "dff8aef7-e6bb-407d-aa0b-ad43c1e4692f",
                 "isEnabled": true,
                 "parentObject": "3c185f30-92e8-4a63-b8ce-315ee16d814d",
-                "spawnInterval": 2.0,
-                "maxTargets": 10,
+                "spawnInterval": 0.5,
+                "maxTargets": 20,
                 "scoreboard": "3398b3f2-39a9-4099-b5e1-21f8fbf4cf94"
             }
         },

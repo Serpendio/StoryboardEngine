@@ -43,7 +43,7 @@ void FirstPersonController::OnUpdate()
 		gun->Fire();
 	}
 
-	if ((Input::GetKeyState(SDL_SCANCODE_SPACE) == ButtonState::PRESSED))
+	if (Input::GetKeyState(SDL_SCANCODE_SPACE) == ButtonState::PRESSED)
 	{
 		// Jump
 		rigidBody->ApplyImpulse(Vector3(0.0f, jumpSpeed, 0.0f));
