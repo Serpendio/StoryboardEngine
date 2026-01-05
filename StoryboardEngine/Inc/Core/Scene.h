@@ -24,9 +24,7 @@ namespace StoryboardEngine
 		virtual void RenderGUI();
 		virtual void EndFrame();
 	protected:
-#ifdef _EDITOR
 		friend class EditorLayer;
-#endif
 	public:
 		StoryboardEngine::SceneReference<StoryboardEngine::SceneObject> GetRoot() const;
 		// Costly, use sparingly

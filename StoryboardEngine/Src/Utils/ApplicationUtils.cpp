@@ -2,7 +2,11 @@
 #include "Utils/ApplicationUtils.h"
 
 bool StoryboardEngine::ApplicationUtils::deserializingScene = false;
+#ifdef _EDITOR
 bool StoryboardEngine::ApplicationUtils::isPlaying = false;
+#else
+bool StoryboardEngine::ApplicationUtils::isPlaying = true;
+#endif
 Vector2 StoryboardEngine::ApplicationUtils::screenSize = Vector2(1280, 720);
 
 bool StoryboardEngine::ApplicationUtils::IsDeserializingScene()
